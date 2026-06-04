@@ -1,7 +1,10 @@
-const express = require("express");
-const router = express.Router();
+module.exports = async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      error: "Method not allowed"
+    });
+  }
 
-router.post("/", async (req, res) => {
   try {
     const { systemPrompt, userPrompt } = req.body;
 
@@ -35,15 +38,13 @@ router.post("/", async (req, res) => {
 
     const data = await response.json();
 
-    res.json(data);
+    return res.status(200).json(data);
 
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: error.message
     });
   }
-});
-
-module.exports = router;
+};
