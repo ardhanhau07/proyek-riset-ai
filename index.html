@@ -1152,15 +1152,7 @@ Berikan ulasan Anda dalam struktur berikut:
 3. **Saran Rekonstruksi Judul & Kalimat Abstrak**: Berikan saran penulisan ulang judul dan 3 kalimat pembuka abstrak agar terlihat lebih prestisius dan kompetitif.
 4. **Rekomendasi Tambahan**: State-of-the-art atau metode komparasi modern apa yang sebaiknya ditambahkan di dalam bidang informatika ini.`;
 
-        const finalApiKey = customApiKey || "";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${finalApiKey}`;
-
-        const payload = {
-          contents: [{ parts: [{ text: userPrompt }] }],
-          systemInstruction: {
-            parts: [{ text: systemPrompt }],
-          },
-        };
+        const apiUrl = "/api/gemini";
 
         let success = false;
         let retries = 0;
@@ -1169,10 +1161,15 @@ Berikan ulasan Anda dalam struktur berikut:
 
         while (!success && retries < 3) {
           try {
-            const response = await fetch(apiUrl, {
+            const response = await fetch("/api/gemini", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                systemPrompt,
+                userPrompt,
+              }),
             });
 
             if (response.status === 429) {
