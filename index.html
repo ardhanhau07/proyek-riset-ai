@@ -1,0 +1,1218 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Analisis Kebutuhan Dosen Informatika Indonesia dalam Memulai Penelitian
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #fafaf9;
+        color: #292524;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+      }
+      @media (max-width: 768px) {
+        .chart-container {
+          height: 250px;
+        }
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      .tab-active {
+        background-color: #0d9488;
+        color: white;
+      }
+      .tab-inactive {
+        background-color: #e7e5e4;
+        color: #44403c;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <nav
+      class="fixed w-full z-50 top-0 bg-stone-100/90 backdrop-blur-md border-b border-stone-200"
+    >
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div
+            class="flex-shrink-0 text-teal-700 font-bold text-xl tracking-tight"
+          >
+            &#128202; RisetInformatika.id
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-6">
+              <a
+                href="#beranda"
+                class="hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Beranda</a
+              >
+              <a
+                href="#tantangan"
+                class="hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Tantangan</a
+              >
+              <a
+                href="#waktu"
+                class="hover:text-teal-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Alokasi Waktu</a
+              >
+              <a
+                href="#asisten-ai"
+                class="bg-teal-50 text-teal-700 hover:text-teal-800 px-3 py-2 rounded-md text-sm font-semibold transition-colors"
+                >Pusat Akselerasi AI</a
+              >
+              <a
+                href="#solusi"
+                class="bg-teal-600 text-white hover:bg-teal-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >Solusi</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-24 pb-16">
+      <!-- Section Beranda -->
+      <section
+        id="beranda"
+        class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20"
+      >
+        <div
+          class="text-center md:text-left md:flex items-center justify-between gap-12"
+        >
+          <div class="md:w-3/5">
+            <h1
+              class="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight mb-6"
+            >
+              Memahami Hambatan Dosen Informatika Indonesia dalam
+              <span class="text-teal-600">Memulai Penelitian</span>
+            </h1>
+            <p class="text-lg text-stone-600 mb-8 leading-relaxed">
+              Bagian ini merangkum hasil survei komprehensif terhadap 500+ dosen
+              Program Studi Informatika di berbagai perguruan tinggi di
+              Indonesia. Aplikasi interaktif ini bertujuan untuk
+              mengidentifikasi kebutuhan krusial dan merancang ekosistem
+              dukungan yang tepat agar dosen dapat meningkatkan luaran
+              penelitian.
+            </p>
+            <div
+              class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center md:text-left"
+            >
+              <div
+                class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm"
+              >
+                <div class="text-3xl font-bold text-teal-600 mb-1">524</div>
+                <div
+                  class="text-xs text-stone-500 uppercase tracking-wide font-semibold"
+                >
+                  Responden
+                </div>
+              </div>
+              <div
+                class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm"
+              >
+                <div class="text-3xl font-bold text-teal-600 mb-1">34</div>
+                <div
+                  class="text-xs text-stone-500 uppercase tracking-wide font-semibold"
+                >
+                  Provinsi
+                </div>
+              </div>
+              <div
+                class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm"
+              >
+                <div class="text-3xl font-bold text-teal-600 mb-1">12%</div>
+                <div
+                  class="text-xs text-stone-500 uppercase tracking-wide font-semibold"
+                >
+                  Aktif Meneliti
+                </div>
+              </div>
+              <div
+                class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm"
+              >
+                <div class="text-3xl font-bold text-teal-600 mb-1">88%</div>
+                <div
+                  class="text-xs text-stone-500 uppercase tracking-wide font-semibold"
+                >
+                  Butuh Dukungan
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="md:w-2/5 mt-12 md:mt-0 flex justify-center">
+            <div
+              class="text-[120px] bg-teal-50 w-64 h-64 rounded-full flex items-center justify-center border-8 border-white shadow-xl"
+            >
+              &#128187;
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Tantangan -->
+      <section id="tantangan" class="bg-white py-20 border-y border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="mb-10 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-stone-900 mb-4">
+              Tantangan Utama Memulai Riset
+            </h2>
+            <p class="text-stone-600">
+              Visualisasi di bawah ini menampilkan persentase hambatan utama
+              yang dialami dosen. Gunakan filter untuk melihat perbedaan
+              signifikan antara dosen muda (pengalaman &lt; 5 tahun) dan dosen
+              senior.
+            </p>
+          </div>
+
+          <div class="flex justify-center space-x-2 mb-8">
+            <button
+              id="btn-semua"
+              class="tab-active px-5 py-2 rounded-full text-sm font-semibold transition-colors duration-200"
+              onclick="updateBarChart('semua', 'btn-semua')"
+            >
+              Semua Responden
+            </button>
+            <button
+              id="btn-muda"
+              class="tab-inactive px-5 py-2 rounded-full text-sm font-semibold transition-colors duration-200"
+              onclick="updateBarChart('muda', 'btn-muda')"
+            >
+              Dosen Muda
+            </button>
+            <button
+              id="btn-senior"
+              class="tab-inactive px-5 py-2 rounded-full text-sm font-semibold transition-colors duration-200"
+              onclick="updateBarChart('senior', 'btn-senior')"
+            >
+              Dosen Senior
+            </button>
+          </div>
+
+          <div class="bg-stone-50 p-6 rounded-2xl border border-stone-200">
+            <div class="chart-container">
+              <canvas id="tantanganChart"></canvas>
+            </div>
+            <div
+              id="tantangan-insight"
+              class="mt-6 text-center text-sm text-stone-600 bg-teal-50 p-4 rounded-lg border border-teal-100"
+            >
+              Secara umum, pendanaan awal dan beban mengajar yang tinggi menjadi
+              penghalang terbesar bagi mayoritas dosen informatika di Indonesia.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Alokasi Waktu -->
+      <section id="waktu" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="text-3xl font-bold text-stone-900 mb-4">
+                Realita Alokasi Waktu Mingguan
+              </h2>
+              <p class="text-stone-600 mb-6 leading-relaxed">
+                Bagian ini mengeksplorasi bagaimana dosen mendistribusikan waktu
+                mereka. Data menunjukkan adanya ketidakseimbangan tridarma
+                perguruan tinggi. Waktu untuk persiapan mengajar dan tugas
+                administratif mendominasi, menyisakan proporsi yang sangat kecil
+                untuk aktivitas penelitian murni.
+              </p>
+              <ul class="space-y-4">
+                <li class="flex items-start">
+                  <span class="text-xl mr-3">&#128218;</span>
+                  <div>
+                    <strong class="block text-stone-800"
+                      >Pengajaran & Persiapan (55%)</strong
+                    >
+                    <span class="text-sm text-stone-500"
+                      >Koreksi tugas, pembuatan modul praktikum coding, dan
+                      tatap muka.</span
+                    >
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-xl mr-3">&#128193;</span>
+                  <div>
+                    <strong class="block text-stone-800"
+                      >Beban Administratif (25%)</strong
+                    >
+                    <span class="text-sm text-stone-500"
+                      >Akreditasi, pelaporan beban kerja (BKD), dan rapat
+                      struktural.</span
+                    >
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-xl mr-3">&#128300;</span>
+                  <div>
+                    <strong class="block text-stone-800"
+                      >Penelitian (12%)</strong
+                    >
+                    <span class="text-sm text-stone-500"
+                      >Membaca paper, eksperimen, dan penulisan publikasi.</span
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-center items-center"
+            >
+              <div
+                class="chart-container"
+                style="height: 300px; max-height: 300px"
+              >
+                <canvas id="waktuChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Baru: Pusat Akselerasi Riset AI -->
+      <section
+        id="asisten-ai"
+        class="bg-teal-50/50 py-20 border-t border-stone-200"
+      >
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-3xl mx-auto mb-12">
+            <span
+              class="px-3 py-1 bg-teal-100 text-teal-800 text-xs font-semibold rounded-full uppercase tracking-wider"
+              >Fitur Eksperimental AI</span
+            >
+            <h2 class="text-3xl font-bold text-stone-900 mt-3 mb-4">
+              Pusat Akselerasi Riset AI
+            </h2>
+            <p class="text-stone-600">
+              Atasi tantangan riset Anda secara langsung. Gunakan asisten pintar
+              bertenaga <strong>Gemini 3.1 Flash</strong> untuk memicu draf
+              proposal, ide riset komputasi lokal, serta perbaikan metodologi
+              secara instan.
+            </p>
+          </div>
+
+          <!-- AI Tools Selector -->
+          <div
+            class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden"
+          >
+            <div class="border-b border-stone-200 flex">
+              <button
+                id="tab-generator"
+                class="flex-1 py-4 text-center font-semibold text-sm border-b-2 border-teal-600 text-teal-600 transition-all focus:outline-none"
+                onclick="switchAiTab('generator')"
+              >
+                💡 Generator Ide Riset Instan
+              </button>
+              <button
+                id="tab-reviewer"
+                class="flex-1 py-4 text-center font-semibold text-sm border-b-2 border-transparent text-stone-500 hover:text-stone-800 transition-all focus:outline-none"
+                onclick="switchAiTab('reviewer')"
+              >
+                🔍 Reviewer Abstrak & Hibah
+              </button>
+            </div>
+
+            <!-- Tool 1: Research Idea Generator -->
+            <div id="tool-generator" class="p-6 md:p-8">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-1 space-y-4">
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-stone-700 uppercase tracking-wide mb-1"
+                      >Sub-Bidang Informatika</label
+                    >
+                    <select
+                      id="gen-sub-bidang"
+                      class="w-full text-sm border border-stone-300 rounded-lg p-2.5 bg-stone-50 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    >
+                      <option value="Kecerdasan Buatan (AI) / Machine Learning">
+                        Kecerdasan Buatan (AI) & ML
+                      </option>
+                      <option value="Sistem IoT & Embedded Systems">
+                        Internet of Things (IoT)
+                      </option>
+                      <option value="Keamanan Siber & Kriptografi">
+                        Cyber Security & Kriptografi
+                      </option>
+                      <option value="Data Science & Big Data">
+                        Data Science & Big Data Analytics
+                      </option>
+                      <option value="Sistem Cerdas Pertanian / Kelautan">
+                        IT Spesifik Sektoral (Agrikultur/Maritim)
+                      </option>
+                      <option
+                        value="Rekayasa Perangkat Lunak & Cloud Computing"
+                      >
+                        Software Engineering & Cloud
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-stone-700 uppercase tracking-wide mb-1"
+                      >Keterbatasan Utama Anda</label
+                    >
+                    <select
+                      id="gen-batasan"
+                      class="w-full text-sm border border-stone-300 rounded-lg p-2.5 bg-stone-50 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    >
+                      <option
+                        value="Beban mengajar padat (hanya punya waktu < 5 jam seminggu untuk meneliti)"
+                      >
+                        Beban Mengajar Padat (&lt;5 jam/minggu)
+                      </option>
+                      <option
+                        value="Infrastruktur terbatas (tidak punya GPU, hanya andalan laptop standar atau free cloud)"
+                      >
+                        Infrastruktur Komputasi Rendah (No GPU)
+                      </option>
+                      <option
+                        value="Tanpa pendanaan/hibah eksternal saat ini (mandiri)"
+                      >
+                        Tanpa Anggaran (Riset Mandiri)
+                      </option>
+                      <option
+                        value="Kurang pengalaman publikasi (dosen pemula)"
+                      >
+                        Dosen Pemula (Minim Mentor/Pengalaman)
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-stone-700 uppercase tracking-wide mb-1"
+                      >Target Publikasi Luaran</label
+                    >
+                    <select
+                      id="gen-target"
+                      class="w-full text-sm border border-stone-300 rounded-lg p-2.5 bg-stone-50 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    >
+                      <option value="Jurnal Nasional SINTA 3 atau 4">
+                        Jurnal Nasional Sinta (3/4)
+                      </option>
+                      <option value="Jurnal Nasional Bereputasi SINTA 1 atau 2">
+                        Jurnal Nasional Sinta Unggulan (1/2)
+                      </option>
+                      <option
+                        value="Seminar Internasional IEEE/ACM Terindeks Scopus"
+                      >
+                        Prosiding Scopus (IEEE/ACM)
+                      </option>
+                      <option
+                        value="Jurnal Internasional Bereputasi (Q1-Q4 Scopus)"
+                      >
+                        Jurnal Internasional Bereputasi (Q1-Q4)
+                      </option>
+                    </select>
+                  </div>
+                  <button
+                    onclick="generateResearchIdea()"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                  >
+                    <span>Spark Ide Riset Terarah ⚡</span>
+                  </button>
+                </div>
+
+                <div
+                  class="md:col-span-2 border-t md:border-t-0 md:border-l border-stone-200 pt-6 md:pt-0 md:pl-8 flex flex-col justify-between"
+                >
+                  <div class="prose max-w-none text-stone-800">
+                    <h4
+                      class="font-bold text-lg text-teal-800 mb-3 flex items-center gap-2"
+                    >
+                      <span>📍 Hasil Rekomendasi Protokol Riset</span>
+                    </h4>
+                    <!-- Dynamic Loading Indicator -->
+                    <div
+                      id="gen-loader"
+                      class="hidden flex flex-col items-center justify-center py-12 space-y-3"
+                    >
+                      <div
+                        class="w-10 h-10 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"
+                      ></div>
+                      <p class="text-sm text-stone-500 animate-pulse">
+                        Menghubungkan ke Gemini AI... Merancang blueprint riset
+                        terbaik Anda...
+                      </p>
+                    </div>
+                    <!-- Dynamic Result Box -->
+                    <div
+                      id="gen-result"
+                      class="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm min-h-[250px] overflow-y-auto max-h-[450px]"
+                    >
+                      <p class="text-stone-400 italic text-center py-12">
+                        Isi konfigurasi di sebelah kiri dan klik tombol untuk
+                        menghasilkan ide riset orisinal yang disesuaikan khusus
+                        dengan situasi Anda.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    id="gen-toast-box"
+                    class="hidden mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tool 2: Abstract Reviewer -->
+            <div id="tool-reviewer" class="hidden p-6 md:p-8">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-1 space-y-4">
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-stone-700 uppercase tracking-wide mb-1"
+                      >Skema Target Hibah / Fokus</label
+                    >
+                    <select
+                      id="rev-skema"
+                      class="w-full text-sm border border-stone-300 rounded-lg p-2.5 bg-stone-50 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                    >
+                      <option
+                        value="Hibah Penelitian Dosen Pemula (PDP) Kemdikbudristek"
+                      >
+                        PDP Kemdikbudristek
+                      </option>
+                      <option
+                        value="Hibah Penelitian Fundamental Kemdikbudristek"
+                      >
+                        Penelitian Fundamental
+                      </option>
+                      <option
+                        value="Hibah Riset Terapan Industri / Matching Fund"
+                      >
+                        Matching Fund / Riset Terapan
+                      </option>
+                      <option value="Review Jurnal Internasional Bereputasi">
+                        Kesiapan Jurnal Internasional (Scopus)
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-xs font-bold text-stone-700 uppercase tracking-wide mb-1"
+                      >Draf Judul ATAU Abstrak Riset Anda</label
+                    >
+                    <textarea
+                      id="rev-text"
+                      rows="8"
+                      placeholder="Tuliskan draf judul, abstrak, atau garis besar rancangan riset informatika Anda di sini..."
+                      class="w-full text-sm border border-stone-300 rounded-lg p-2.5 bg-stone-50 focus:ring-2 focus:ring-teal-500 focus:outline-none resize-none"
+                    ></textarea>
+                  </div>
+                  <button
+                    onclick="reviewProposalAbstract()"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                  >
+                    <span>Analisis & Optimasi Abstrak 🔍</span>
+                  </button>
+                </div>
+
+                <div
+                  class="md:col-span-2 border-t md:border-t-0 md:border-l border-stone-200 pt-6 md:pt-0 md:pl-8 flex flex-col justify-between"
+                >
+                  <div class="prose max-w-none text-stone-800">
+                    <h4
+                      class="font-bold text-lg text-teal-800 mb-3 flex items-center gap-2"
+                    >
+                      <span>📍 Hasil Evaluasi & Strategi Lolos Hibah</span>
+                    </h4>
+                    <!-- Dynamic Loading Indicator -->
+                    <div
+                      id="rev-loader"
+                      class="hidden flex flex-col items-center justify-center py-12 space-y-3"
+                    >
+                      <div
+                        class="w-10 h-10 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"
+                      ></div>
+                      <p class="text-sm text-stone-500 animate-pulse">
+                        Sedang menelaah keselarasan metodologi & kebaruan riset
+                        Anda...
+                      </p>
+                    </div>
+                    <!-- Dynamic Result Box -->
+                    <div
+                      id="rev-result"
+                      class="bg-stone-50 border border-stone-200 rounded-xl p-5 text-sm min-h-[250px] overflow-y-auto max-h-[450px]"
+                    >
+                      <p class="text-stone-400 italic text-center py-12">
+                        Masukkan draf gagasan atau abstrak penelitian Anda untuk
+                        dievaluasi kelayakan akademis dan kesiapannya menembus
+                        standar kriteria review eksternal.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    id="rev-toast-box"
+                    class="hidden mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Solusi -->
+      <section id="solusi" class="bg-stone-900 text-stone-100 py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl font-bold text-white mb-4">
+              Prioritas Kebutuhan & Rekomendasi Solusi
+            </h2>
+            <p class="text-stone-400">
+              Berdasarkan analisis data, kami merumuskan empat pilar solusi yang
+              paling mendesak untuk segera diimplementasikan oleh pemangku
+              kebijakan kampus dan pemerintah guna mendukung riset informatika.
+              Klik pada kartu untuk melihat detail langkah aksi.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div
+              class="bg-stone-800 border border-stone-700 p-6 rounded-xl card-hover cursor-pointer"
+              onclick="toggleDetails('sol-1')"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                  <span class="text-3xl">&#128176;</span>
+                  <h3 class="text-xl font-bold text-white">
+                    Skema Hibah Komputasi
+                  </h3>
+                </div>
+                <span
+                  class="text-teal-400 text-sm font-semibold border border-teal-400 px-2 py-1 rounded-full"
+                  >Prioritas Tinggi</span
+                >
+              </div>
+              <p class="text-stone-400 text-sm mb-4">
+                Dosen IT membutuhkan resource spesifik, bukan sekadar dana uang
+                tunai.
+              </p>
+              <div
+                id="sol-1"
+                class="hidden text-sm text-stone-300 bg-stone-900 p-4 rounded-lg border border-stone-700 mt-2"
+              >
+                <strong>Langkah Aksi:</strong>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                  <li>
+                    Penyediaan kredit cloud (AWS/GCP/Azure) gratis untuk
+                    eksperimen AI/Data Science.
+                  </li>
+                  <li>
+                    Pengadaan server lokal berspesifikasi tinggi (GPU) untuk
+                    pemakaian bersama antar fakultas.
+                  </li>
+                  <li>
+                    Penyederhanaan birokrasi pembelian lisensi perangkat lunak
+                    riset.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              class="bg-stone-800 border border-stone-700 p-6 rounded-xl card-hover cursor-pointer"
+              onclick="toggleDetails('sol-2')"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                  <span class="text-3xl">&#9201;&#65039;</span>
+                  <h3 class="text-xl font-bold text-white">
+                    Sabbatical & Reduksi SKS
+                  </h3>
+                </div>
+                <span
+                  class="text-teal-400 text-sm font-semibold border border-teal-400 px-2 py-1 rounded-full"
+                  >Kritis</span
+                >
+              </div>
+              <p class="text-stone-400 text-sm mb-4">
+                Penyesuaian beban mengajar untuk memberi ruang kognitif
+                meneliti.
+              </p>
+              <div
+                id="sol-2"
+                class="hidden text-sm text-stone-300 bg-stone-900 p-4 rounded-lg border border-stone-700 mt-2"
+              >
+                <strong>Langkah Aksi:</strong>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                  <li>
+                    Implementasi kebijakan "Research Semester" bebas mengajar
+                    setiap 4 semester.
+                  </li>
+                  <li>
+                    Pembatasan maksimal ekuivalensi beban mengajar (maks 9 SKS
+                    bagi peneliti aktif).
+                  </li>
+                  <li>
+                    Bantuan asisten dosen atau asisten peneliti dari kalangan
+                    mahasiswa tingkat akhir.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              class="bg-stone-800 border border-stone-700 p-6 rounded-xl card-hover cursor-pointer"
+              onclick="toggleDetails('sol-3')"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                  <span class="text-3xl">&#129309;</span>
+                  <h3 class="text-xl font-bold text-white">
+                    Mentorship Publikasi
+                  </h3>
+                </div>
+                <span
+                  class="text-amber-400 text-sm font-semibold border border-amber-400 px-2 py-1 rounded-full"
+                  >Jangka Menengah</span
+                >
+              </div>
+              <p class="text-stone-400 text-sm mb-4">
+                Membantu dosen muda menembus jurnal internasional bereputasi.
+              </p>
+              <div
+                id="sol-3"
+                class="hidden text-sm text-stone-300 bg-stone-900 p-4 rounded-lg border border-stone-700 mt-2"
+              >
+                <strong>Langkah Aksi:</strong>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                  <li>
+                    Pemasangan (pairing) dosen muda dengan profesor IT yang
+                    memiliki H-Index tinggi.
+                  </li>
+                  <li>
+                    Workshop intensif penulisan paper teknis dan metodologi
+                    riset komputasi.
+                  </li>
+                  <li>
+                    Fasilitas layanan proofreading bahasa Inggris akademik
+                    gratis dari institusi.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              class="bg-stone-800 border border-stone-700 p-6 rounded-xl card-hover cursor-pointer"
+              onclick="toggleDetails('sol-4')"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                  <span class="text-3xl">&#127760;</span>
+                  <h3 class="text-xl font-bold text-white">
+                    Kolaborasi Industri
+                  </h3>
+                </div>
+                <span
+                  class="text-amber-400 text-sm font-semibold border border-amber-400 px-2 py-1 rounded-full"
+                  >Jangka Menengah</span
+                >
+              </div>
+              <p class="text-stone-400 text-sm mb-4">
+                Menghubungkan riset akademik dengan permasalahan nyata di dunia
+                industri IT.
+              </p>
+              <div
+                id="sol-4"
+                class="hidden text-sm text-stone-300 bg-stone-900 p-4 rounded-lg border border-stone-700 mt-2"
+              >
+                <strong>Langkah Aksi:</strong>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                  <li>
+                    Pembentukan konsorsium riset antara kampus dan tech startup
+                    lokal.
+                  </li>
+                  <li>
+                    Penyediaan akses dataset riil (anonim) dari industri untuk
+                    bahan riset machine learning/data mining.
+                  </li>
+                  <li>
+                    Skema matching fund untuk proyek terapan yang menguntungkan
+                    kedua belah pihak.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-stone-950 text-stone-500 py-8 text-center text-sm">
+      <p>
+        &copy; 2026 Laporan Kebutuhan Dosen Informatika Indonesia. Dibangun
+        untuk kemudahan eksplorasi informasi.
+      </p>
+    </footer>
+
+    <script>
+      const barData = {
+        semua: {
+          labels: [
+            "Pendanaan & Alat",
+            "Beban Mengajar",
+            "Birokrasi Administrasi",
+            "Kurangnya Mentor",
+            "Akses Jurnal/Data",
+          ],
+          data: [42, 35, 12, 6, 5],
+          insight:
+            "Secara keseluruhan, pendanaan awal untuk infrastruktur IT dan tingginya beban mengajar adalah dua faktor dominan yang menghambat produktivitas riset.",
+        },
+        muda: {
+          labels: [
+            "Pendanaan & Alat",
+            "Kurangnya Mentor",
+            "Beban Mengajar",
+            "Akses Jurnal/Data",
+            "Birokrasi Administrasi",
+          ],
+          data: [38, 28, 20, 10, 4],
+          insight:
+            "Bagi Dosen Muda, minimnya mentoring dan bimbingan penulisan publikasi hampir sama krusialnya dengan masalah pendanaan infrastruktur dasar.",
+        },
+        senior: {
+          labels: [
+            "Beban Mengajar",
+            "Birokrasi Administrasi",
+            "Pendanaan & Alat",
+            "Akses Jurnal/Data",
+            "Kurangnya Mentor",
+          ],
+          data: [45, 25, 20, 8, 2],
+          insight:
+            "Dosen Senior menempatkan beban manajerial/struktural dan birokrasi kampus sebagai hambatan utama melebihi kebutuhan pendanaan murni.",
+        },
+      };
+
+      const ctxTantangan = document
+        .getElementById("tantanganChart")
+        .getContext("2d");
+      let tantanganChart = new Chart(ctxTantangan, {
+        type: "bar",
+        data: {
+          labels: barData.semua.labels,
+          datasets: [
+            {
+              label: "Persentase Responden (%)",
+              data: barData.semua.data,
+              backgroundColor: "rgba(13, 148, 136, 0.8)",
+              borderColor: "rgb(13, 148, 136)",
+              borderWidth: 1,
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return context.parsed.y + "% responden memilih ini";
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 50,
+              ticks: {
+                callback: function (value) {
+                  return value + "%";
+                },
+              },
+              grid: { color: "#e7e5e4" },
+            },
+            x: { grid: { display: false } },
+          },
+        },
+      });
+
+      function updateBarChart(demografi, btnId) {
+        tantanganChart.data.labels = barData[demografi].labels;
+        tantanganChart.data.datasets[0].data = barData[demografi].data;
+        tantanganChart.update();
+
+        document.getElementById("tantangan-insight").innerText =
+          barData[demografi].insight;
+
+        const btns = ["btn-semua", "btn-muda", "btn-senior"];
+        btns.forEach((id) => {
+          const el = document.getElementById(id);
+          if (id === btnId) {
+            el.classList.replace("tab-inactive", "tab-active");
+          } else {
+            el.classList.replace("tab-active", "tab-inactive");
+          }
+        });
+      }
+
+      const ctxWaktu = document.getElementById("waktuChart").getContext("2d");
+      new Chart(ctxWaktu, {
+        type: "doughnut",
+        data: {
+          labels: [
+            "Pengajaran & Persiapan",
+            "Tugas Administratif",
+            "Penelitian & Publikasi",
+            "Pengabdian Masyarakat",
+          ],
+          datasets: [
+            {
+              data: [55, 25, 12, 8],
+              backgroundColor: ["#0d9488", "#78716c", "#f59e0b", "#d6d3d1"],
+              borderWidth: 2,
+              borderColor: "#ffffff",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "70%",
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return (
+                    " " + context.label + ": " + context.parsed + "% Waktu"
+                  );
+                },
+              },
+            },
+          },
+        },
+      });
+
+      function toggleDetails(id) {
+        const el = document.getElementById(id);
+        if (el.classList.contains("hidden")) {
+          el.classList.remove("hidden");
+          el.classList.add("block");
+        } else {
+          el.classList.remove("block");
+          el.classList.add("hidden");
+        }
+      }
+
+      /* Integrasi Gemini API & Pengendali State AI Hub */
+
+      // Simpan API key kustom jika ada di localStorage agar persisten
+      let customApiKey = localStorage.getItem("gemini_custom_api_key") || "";
+      if (customApiKey) {
+        document.getElementById("custom-api-key").value = customApiKey;
+      }
+
+      function toggleApiKeySection() {
+        const container = document.getElementById("api-key-container");
+        const icon = document.getElementById("api-toggle-icon");
+        if (container.classList.contains("hidden")) {
+          container.classList.remove("hidden");
+          icon.innerText = "Sembunyikan ▲";
+        } else {
+          container.classList.add("hidden");
+          icon.innerText = "Tampilkan ▼";
+        }
+      }
+
+      function saveCustomApiKey() {
+        const keyVal = document.getElementById("custom-api-key").value.trim();
+        localStorage.setItem("gemini_custom_api_key", keyVal);
+        customApiKey = keyVal;
+        const status = document.getElementById("api-save-status");
+        status.innerText = "API Key berhasil disimpan ke memori lokal browser!";
+        setTimeout(() => {
+          status.innerText = "";
+        }, 3000);
+      }
+
+      // Penukaran Tab di Dashboard AI
+      function switchAiTab(tabName) {
+        const tabGen = document.getElementById("tab-generator");
+        const tabRev = document.getElementById("tab-reviewer");
+        const toolGen = document.getElementById("tool-generator");
+        const toolRev = document.getElementById("tool-reviewer");
+
+        if (tabName === "generator") {
+          tabGen.className =
+            "flex-1 py-4 text-center font-semibold text-sm border-b-2 border-teal-600 text-teal-600 transition-all focus:outline-none";
+          tabRev.className =
+            "flex-1 py-4 text-center font-semibold text-sm border-b-2 border-transparent text-stone-500 hover:text-stone-800 transition-all focus:outline-none";
+          toolGen.classList.remove("hidden");
+          toolRev.classList.add("hidden");
+        } else {
+          tabGen.className =
+            "flex-1 py-4 text-center font-semibold text-sm border-b-2 border-transparent text-stone-500 hover:text-stone-800 transition-all focus:outline-none";
+          tabRev.className =
+            "flex-1 py-4 text-center font-semibold text-sm border-b-2 border-teal-600 text-teal-600 transition-all focus:outline-none";
+          toolGen.classList.add("hidden");
+          toolRev.classList.remove("hidden");
+        }
+      }
+
+      // Helper untuk memformat keluaran markdown sederhana dari LLM ke format HTML yang bersih
+      function formatMarkdownToHtml(markdownText) {
+        let html = markdownText
+          .replace(
+            /### (.*?)\n/g,
+            '<h5 class="text-base font-bold text-stone-800 mt-4 mb-2">$1</h5>',
+          )
+          .replace(
+            /## (.*?)\n/g,
+            '<h4 class="text-lg font-bold text-teal-800 mt-5 mb-3 border-b pb-1">$1</h4>',
+          )
+          .replace(
+            /\*\*(.*?)\*\*/g,
+            '<strong class="font-bold text-stone-900">$1</strong>',
+          )
+          .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+          .replace(
+            /`([^`]+)`/g,
+            '<code class="bg-stone-200 text-teal-800 px-1.5 py-0.5 rounded font-mono text-xs">$1</code>',
+          )
+          .replace(
+            /^- (.*?)\n/gm,
+            '<li class="list-disc ml-5 mb-1.5 text-stone-700">$1</li>',
+          );
+
+        // Bungkus list item berturutan ke dalam <ul>
+        html = html.replace(
+          /(<li.*?>.*?<\/li>\n?)+/g,
+          (match) => `<ul class="my-3">${match}</ul>`,
+        );
+        // Tambahkan baris baru yang dibersihkan
+        html = html
+          .split("\n\n")
+          .map((p) => {
+            if (
+              p.trim().startsWith("<h") ||
+              p.trim().startsWith("<u") ||
+              p.trim().startsWith("<l")
+            ) {
+              return p;
+            }
+            return `<p class="mb-3 text-stone-700 leading-relaxed">${p}</p>`;
+          })
+          .join("");
+
+        return html;
+      }
+
+      // Generator Ide Riset Instan via Gemini API
+      async function generateResearchIdea() {
+        const subBidang = document.getElementById("gen-sub-bidang").value;
+        const batasan = document.getElementById("gen-batasan").value;
+        const target = document.getElementById("gen-target").value;
+
+        const loader = document.getElementById("gen-loader");
+        const resultBox = document.getElementById("gen-result");
+        const toastBox = document.getElementById("gen-toast-box");
+
+        loader.classList.remove("hidden");
+        resultBox.classList.add("hidden");
+        toastBox.classList.add("hidden");
+
+        const systemPrompt = `Anda adalah Profesor Informatika senior dan Reviewer Riset nasional terbaik di Indonesia. Tugas Anda adalah memberikan 1 ide judul riset orisinal yang spesifik dan praktis, disesuaikan dengan batasan kondisi pengguna, serta rancangan protokol eksperimennya secara terstruktur. Gunakan Bahasa Indonesia yang formal namun memotivasi.`;
+        const userPrompt = `Rancanglah sebuah draf blueprint riset untuk saya dengan spesifikasi berikut:
+- **Sub-Bidang**: ${subBidang}
+- **Keterbatasan Utama**: ${batasan} (Tolong pastikan metodologi komputasi riset ini sangat realistis dan ramah terhadap batasan ini!)
+- **Target Publikasi**: ${target}
+
+Sajikan output dalam format berikut:
+1. **Judul Riset yang Diusulkan** (Pastikan orisinal, menarik, dan mencerminkan solusi lokal)
+2. **Latar Belakang & Novelty** (Singkat, mengapa riset ini penting)
+3. **Metodologi Pengujian / Eksperimen yang Praktis** (Step-by-step eksperimen yang minim resource namun kokoh secara keilmuan)
+4. **Rekomendasi Cloud Stack/Teknologi Gratis** (Misal Google Colab free tier, AWS academy, dataset publik open-access yang relevan)
+5. **Strategi Penulisan agar Tembus Target Luaran** (${target})`;
+
+        const apiUrl = "/api/gemini";
+        const payload = {
+          contents: [{ parts: [{ text: userPrompt }] }],
+          systemInstruction: {
+            parts: [{ text: systemPrompt }],
+          },
+        };
+
+        // Eksponensial Backoff untuk penanganan batas laju (throttling)
+        let success = false;
+        let retries = 0;
+        let delay = 1000;
+        let resultText = "";
+
+        while (!success && retries < 3) {
+          try {
+            const response = await fetch("/api/gemini", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                systemPrompt,
+                userPrompt,
+              }),
+            });
+
+            if (response.status === 429) {
+              retries++;
+              await new Promise((resolve) => setTimeout(resolve, delay));
+              delay *= 2;
+              continue;
+            }
+
+            if (!response.ok) {
+              const errBody = await response.json().catch(() => ({}));
+              throw new Error(
+                errBody.error?.message || `HTTP ${response.status}`,
+              );
+            }
+
+            const jsonResult = await response.json();
+            resultText = jsonResult.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!resultText) {
+              throw new Error("Struktur respons API tidak sesuai");
+            }
+            success = true;
+          } catch (err) {
+            if (retries >= 2) {
+              loader.classList.add("hidden");
+              toastBox.innerText = `Gagal memproses permintaan: ${err.message}. Pastikan koneksi lancar atau ganti API Key di panel konfigurasi atas jika bermasalah.`;
+              toastBox.classList.remove("hidden");
+              resultBox.classList.remove("hidden");
+              return;
+            }
+            retries++;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            delay *= 2;
+          }
+        }
+
+        loader.classList.add("hidden");
+        resultBox.innerHTML = formatMarkdownToHtml(resultText);
+        resultBox.classList.remove("hidden");
+      }
+
+      // Reviewer Proposal / Abstrak Riset via Gemini API
+      async function reviewProposalAbstract() {
+        const skema = document.getElementById("rev-skema").value;
+        const textDraf = document.getElementById("rev-text").value.trim();
+
+        const loader = document.getElementById("rev-loader");
+        const resultBox = document.getElementById("rev-result");
+        const toastBox = document.getElementById("rev-toast-box");
+
+        if (!textDraf) {
+          toastBox.innerText =
+            "Silakan masukkan draf judul atau abstrak riset Anda terlebih dahulu!";
+          toastBox.classList.remove("hidden");
+          return;
+        }
+
+        loader.classList.remove("hidden");
+        resultBox.classList.add("hidden");
+        toastBox.classList.add("hidden");
+
+        const systemPrompt = `Anda adalah reviewer hibah nasional (Kemdikbudristek) dan editor jurnal internasional bidang komputer yang sangat objektif, teliti, dan konstruktif. Berikan evaluasi terarah dalam Bahasa Indonesia untuk meningkatkan peluang diterimanya riset pengguna.`;
+        const userPrompt = `Evaluasilah rancangan abstrak/judul riset berikut untuk disesuaikan dengan kriteria kelayakan skema **${skema}**:
+
+DRAF RENCANA DOSEN:
+"${textDraf}"
+
+Berikan ulasan Anda dalam struktur berikut:
+1. **Analisis Keselarasan dengan Skema**: Apakah draf ini masuk akal dengan kriteria ${skema}?
+2. **Kelemahan Utama yang Harus Diperbaiki**: (Misal metodologi yang kurang jelas, novelty tidak terlihat, atau luaran tidak terukur)
+3. **Saran Rekonstruksi Judul & Kalimat Abstrak**: Berikan saran penulisan ulang judul dan 3 kalimat pembuka abstrak agar terlihat lebih prestisius dan kompetitif.
+4. **Rekomendasi Tambahan**: State-of-the-art atau metode komparasi modern apa yang sebaiknya ditambahkan di dalam bidang informatika ini.`;
+
+        const finalApiKey = customApiKey || "";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${finalApiKey}`;
+
+        const payload = {
+          contents: [{ parts: [{ text: userPrompt }] }],
+          systemInstruction: {
+            parts: [{ text: systemPrompt }],
+          },
+        };
+
+        let success = false;
+        let retries = 0;
+        let delay = 1000;
+        let resultText = "";
+
+        while (!success && retries < 3) {
+          try {
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (response.status === 429) {
+              retries++;
+              await new Promise((resolve) => setTimeout(resolve, delay));
+              delay *= 2;
+              continue;
+            }
+
+            if (!response.ok) {
+              const errBody = await response.json().catch(() => ({}));
+              throw new Error(
+                errBody.error?.message || `HTTP ${response.status}`,
+              );
+            }
+
+            const jsonResult = await response.json();
+            resultText = jsonResult.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!resultText) {
+              throw new Error("Struktur respons API tidak sesuai");
+            }
+            success = true;
+          } catch (err) {
+            if (retries >= 2) {
+              loader.classList.add("hidden");
+              toastBox.innerText = `Gagal memproses evaluasi: ${err.message}. Hubungkan kembali koneksi Anda atau atur ulang API Key secara mandiri.`;
+              toastBox.classList.remove("hidden");
+              resultBox.classList.remove("hidden");
+              return;
+            }
+            retries++;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            delay *= 2;
+          }
+        }
+
+        loader.classList.add("hidden");
+        resultBox.innerHTML = formatMarkdownToHtml(resultText);
+        resultBox.classList.remove("hidden");
+      }
+    </script>
+  </body>
+</html>
