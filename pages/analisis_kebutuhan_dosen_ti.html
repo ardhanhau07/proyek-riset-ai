@@ -1297,9 +1297,16 @@ Sajikan output dalam format berikut:
             }
 
             const jsonResult = await response.json();
+
+            if (jsonResult.error) {
+              throw new Error(jsonResult.error.message);
+            }
+
             resultText = jsonResult.candidates?.[0]?.content?.parts?.[0]?.text;
+
             if (!resultText) {
-              throw new Error("Struktur respons API tidak sesuai");
+              console.error("Unexpected response:", jsonResult);
+              throw new Error("Respons Gemini tidak mengandung hasil teks");
             }
             success = true;
           } catch (err) {
