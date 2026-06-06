@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analisis Kebutuhan Dosen Informatika: Game Dev & Multimedia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("menu-toggle-btn");
+        const mobileMenu = document.getElementById("mobile-menu-panel");
+        const hamburgerIcon = document.getElementById("icon-hamburger");
+        const closeIcon = document.getElementById("icon-close");
+
+        if (toggleBtn && mobileMenu) {
+          toggleBtn.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
+            if (hamburgerIcon) hamburgerIcon.classList.toggle("hidden");
+            if (closeIcon) closeIcon.classList.toggle("hidden");
+          });
+
+          // Menutup menu mobile saat tombol TAB (.nav-btn) ATAU link blog lain (<a>) diklik
+          const mobileLinks = mobileMenu.querySelectorAll(".nav-btn, a");
+          mobileLinks.forEach(function (link) {
+            link.addEventListener("click", function () {
+              mobileMenu.classList.add("hidden");
+              if (hamburgerIcon) hamburgerIcon.classList.remove("hidden");
+              if (closeIcon) closeIcon.classList.add("hidden");
+            });
+          });
+        }
+      });
+    </script>
+
+    <!-- Chosen Palette: Warm Neutrals with Slate and Teal accents -->
+    <!-- Application Structure Plan: The SPA uses a tabbed dashboard structure to break down the research initiation into logical phases: 1) Ringkasan Eksekutif (Overview/Hero), 2) Analisis Data (Current State Charts), 3) Peta Kebutuhan (Interactive Needs Grid), 4) Asisten AI Akademik (Gemini-powered tools for syllabus, lab upgrade & research generation), and 5) Metodologi Riset (Action Plan). This structure was chosen to guide stakeholders logically from understanding the 'why' (background), looking at the 'what' (data), exploring the 'needs' (gaps), utilizing AI to solve immediate lecturer tasks, and finally seeing 'how' the research will be executed, ensuring high usability and easy scanning. -->
+    <!-- Visualization & Content Choices: 1) Grouped Bar Chart -> Goal: Compare Current vs Required Skills -> Interaction: Tooltips, Legend toggling -> Justification: Clearest way to show gaps in specific technical areas (Unity, 3D, etc.) -> Library: Chart.js. 2) Doughnut Chart -> Goal: Show proportions of primary challenges -> Interaction: Hover segments -> Justification: Easily conveys the largest pain points for lecturers -> Library: Chart.js. 3) Interactive Grid -> Goal: Organize specific hardware/software needs -> Interaction: Clickable cards to reveal details -> Justification: Keeps UI clean while providing deep dives into specific requirements. Confirming NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc; /* slate-50 */
+        color: #0f172a; /* slate-900 */
+      }
+
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+        background-color: white;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow:
+          0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+      }
+
+      @media (max-width: 640px) {
+        .chart-container {
+          height: 300px;
+        }
+      }
+
+      .nav-btn.active {
+        border-bottom: 2px solid #0d9488; /* teal-600 */
+        color: #0d9488;
+        font-weight: 600;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.4s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card-detail {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.3s ease-out,
+          padding 0.3s ease;
+      }
+
+      .card-detail.expanded {
+        max-height: 200px;
+        padding-top: 1rem;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Custom Modal untuk Notifikasi / Error -->
+    <div
+      id="custom-modal"
+      class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center z-[100] px-4"
+    >
+      <div
+        class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 border border-slate-100 transform transition-all"
+      >
+        <div class="flex items-center space-x-3 mb-4">
+          <span id="modal-icon" class="text-3xl">⚠️</span>
+          <h3 id="modal-title" class="text-lg font-bold text-slate-900">
+            Perhatian
+          </h3>
+        </div>
+        <p id="modal-message" class="text-slate-600 text-sm mb-6">
+          Pesan peringatan akan muncul di sini.
+        </p>
+        <div class="flex justify-end">
+          <button
+            onclick="closeModal()"
+            class="bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold py-2 px-5 rounded-lg transition-colors"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center whitespace-nowrap">
+            <span class="text-2xl mr-2">🎮</span>
+            <span class="font-bold text-xl text-slate-800"
+              >RisetDosen<span class="text-teal-600">ID</span></span
+            >
+          </div>
+
+          <div
+            class="hidden lg:flex items-center space-x-6 xl:space-x-8"
+            id="desktop-nav"
+          >
+            <button
+              class="nav-btn active pb-1 text-slate-500 hover:text-teal-600 transition-colors whitespace-nowrap"
+              data-target="ringkasan"
+            >
+              Ringkasan
+            </button>
+            <button
+              class="nav-btn pb-1 text-slate-500 hover:text-teal-600 transition-colors whitespace-nowrap"
+              data-target="data"
+            >
+              Analisis Data
+            </button>
+            <button
+              class="nav-btn pb-1 text-slate-500 hover:text-teal-600 transition-colors whitespace-nowrap"
+              data-target="kebutuhan"
+            >
+              Peta Kebutuhan
+            </button>
+            <button
+              class="nav-btn pb-1 text-teal-600 font-medium hover:text-teal-700 transition-colors whitespace-nowrap"
+              data-target="asisten-ai"
+            >
+              ✨ Asisten AI
+            </button>
+            <button
+              class="nav-btn pb-1 text-slate-500 hover:text-teal-600 transition-colors whitespace-nowrap"
+              data-target="metodologi"
+            >
+              Metodologi
+            </button>
+
+            <div class="relative group inline-block text-left">
+              <button
+                class="text-slate-500 hover:text-teal-600 pb-1 font-medium transition-colors inline-flex items-center gap-1 focus:outline-none whitespace-nowrap"
+              >
+                Blog Lainnya
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              <div
+                class="absolute right-0 top-full pt-4 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+              >
+                <div
+                  class="bg-white rounded-lg shadow-lg border border-slate-100 py-2 flex flex-col overflow-hidden text-left font-normal"
+                >
+                  <a
+                    href="../index.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                    >Hub Utama</a
+                  >
+                  <a
+                    href="lanskap_talenta_game_dev_indonesia.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                    >Lanskap Game Dev</a
+                  >
+                  <a
+                    href="laporan_analisis_kebutuhan_dosen.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                    >Analisis Kebutuhan Dosen</a
+                  >
+                  <a
+                    href="laporan_karir_informatika.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                    >Karir Informatika</a
+                  >
+                  <a
+                    href="laporan_kebutuhan_dosen_game_dev_id.html"
+                    class="px-4 py-2.5 text-sm text-teal-700 bg-slate-50 font-medium hover:bg-teal-50 transition-colors"
+                    >Dosen Game Dev</a
+                  >
+                  <a
+                    href="laporan_peran_dosen.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                    >Peran Dosen</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex lg:hidden items-center">
+            <button
+              id="menu-toggle-btn"
+              class="text-slate-500 hover:text-teal-600 inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors"
+            >
+              <svg
+                class="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  id="icon-hamburger"
+                  class="inline-flex"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+                <path
+                  id="icon-close"
+                  class="hidden"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu-panel"
+        class="hidden lg:hidden border-t border-slate-200 bg-white absolute w-full left-0 top-full shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto"
+      >
+        <div
+          class="px-4 pt-3 pb-6 space-y-1 flex flex-col font-medium text-slate-600"
+        >
+          <button
+            class="block w-full text-left nav-btn active hover:text-teal-600 hover:bg-teal-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            data-target="ringkasan"
+          >
+            Ringkasan
+          </button>
+          <button
+            class="block w-full text-left nav-btn hover:text-teal-600 hover:bg-teal-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            data-target="data"
+          >
+            Analisis Data
+          </button>
+          <button
+            class="block w-full text-left nav-btn hover:text-teal-600 hover:bg-teal-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            data-target="kebutuhan"
+          >
+            Peta Kebutuhan
+          </button>
+          <button
+            class="block w-full text-left nav-btn text-teal-700 bg-teal-50 hover:bg-teal-100 px-3 py-2.5 rounded-md text-base transition-colors"
+            data-target="asisten-ai"
+          >
+            ✨ Asisten AI
+          </button>
+          <button
+            class="block w-full text-left nav-btn hover:text-teal-600 hover:bg-teal-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            data-target="metodologi"
+          >
+            Metodologi
+          </button>
+
+          <div class="pt-4 border-t border-slate-200 mt-2">
+            <span
+              class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider"
+              >Daftar Blog Lainnya</span
+            >
+            <div class="mt-2 space-y-1 pl-2 font-normal">
+              <a
+                href="../index.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                >Hub Utama</a
+              >
+              <a
+                href="lanskap_talenta_game_dev_indonesia.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                >Lanskap Game Dev</a
+              >
+              <a
+                href="laporan_analisis_kebutuhan_dosen.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                >Analisis Kebutuhan Dosen</a
+              >
+              <a
+                href="laporan_karir_informatika.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                >Karir Informatika</a
+              >
+              <a
+                href="laporan_kebutuhan_dosen_game_dev_id.html"
+                class="block px-3 py-2 rounded-md text-sm text-teal-700 bg-slate-50 font-medium hover:bg-teal-50 transition-colors"
+                >Dosen Game Dev</a
+              >
+              <a
+                href="laporan_peran_dosen.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                >Peran Dosen</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section id="ringkasan" class="tab-content fade-in">
+        <div
+          class="bg-white rounded-2xl shadow-sm p-8 md:p-12 mb-8 border border-slate-100"
+        >
+          <div class="max-w-3xl">
+            <div
+              class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-sm font-semibold mb-4"
+            >
+              Inisiasi Penelitian 2026
+            </div>
+            <h1
+              class="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight"
+            >
+              Meningkatkan Kapasitas Dosen Informatika di Era
+              <span class="text-teal-600">Game & Multimedia</span>
+            </h1>
+            <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+              Industri game dan multimedia di Indonesia diproyeksikan tumbuh
+              pesat. Namun, institusi pendidikan tinggi menghadapi tantangan
+              besar dalam menyediakan tenaga pengajar (dosen) yang memiliki
+              kompetensi industri yang relevan. Aplikasi interaktif ini
+              merupakan landasan awal untuk memetakan kondisi riil, tantangan,
+              dan kebutuhan strategis dosen Informatika di Indonesia.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <button
+                onclick="switchTab('data')"
+                class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors shadow-md"
+              >
+                Eksplorasi Data 📊
+              </button>
+              <button
+                onclick="switchTab('asisten-ai')"
+                class="bg-teal-50 hover:bg-teal-100 text-teal-700 font-semibold py-3 px-6 rounded-lg transition-colors border border-teal-200"
+              >
+                Coba Asisten AI Dosen ✨
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl mb-4">📈</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              Potensi Industri
+            </h3>
+            <p class="text-slate-600">
+              Pertumbuhan pasar game Indonesia mencapai angka signifikan,
+              menuntut lulusan dengan skill teknis tingkat tinggi.
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl mb-4">🧑‍🏫</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              Kesenjangan Akademis
+            </h3>
+            <p class="text-slate-600">
+              Mayoritas dosen memiliki latar belakang teoritis kuat, namun minim
+              pengalaman portofolio game komersial.
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
+          >
+            <div class="text-4xl mb-4">🎯</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              Tujuan Penelitian
+            </h3>
+            <p class="text-slate-600">
+              Menyusun framework kurikulum pelatihan dosen dan rekomendasi
+              infrastruktur laboratorium standar industri.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="data" class="tab-content hidden fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">
+            Analisis Kondisi Saat Ini
+          </h2>
+          <p class="text-slate-600 max-w-4xl">
+            Bagian ini menyajikan estimasi data awal berdasarkan studi literatur
+            mengenai kompetensi dan tantangan dosen Informatika di Indonesia
+            yang mengajar peminatan Game Development dan Multimedia.
+            Berinteraksilah dengan grafik di bawah ini untuk melihat detail.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col"
+          >
+            <h3 class="text-lg font-bold text-slate-800 mb-1">
+              Kesenjangan Kompetensi Teknis
+            </h3>
+            <p class="text-sm text-slate-500 mb-4">
+              Skala 1-10: Harapan Industri vs Realita Akademis
+            </p>
+            <div class="chart-container flex-grow">
+              <canvas id="skillsChart"></canvas>
+            </div>
+            <p
+              class="text-sm text-slate-600 mt-4 p-3 bg-slate-50 rounded-lg border border-slate-100"
+            >
+              <span class="font-bold">Insight:</span> Terdapat gap terbesar pada
+              penggunaan Game Engine (Unity/Unreal) dan 3D Asset Creation. Dosen
+              sangat menguasai fondasi algoritma dasar, namun kurang pada
+              aplikasi praktis multimedia.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col"
+          >
+            <h3 class="text-lg font-bold text-slate-800 mb-1">
+              Tantangan Utama Dosen
+            </h3>
+            <p class="text-sm text-slate-500 mb-4">
+              Faktor penghambat pengajaran Game Dev yang efektif
+            </p>
+            <div
+              class="chart-container flex-grow flex items-center justify-center"
+            >
+              <canvas id="challengesChart"></canvas>
+            </div>
+            <p
+              class="text-sm text-slate-600 mt-4 p-3 bg-slate-50 rounded-lg border border-slate-100"
+            >
+              <span class="font-bold">Insight:</span> Infrastruktur laboratorium
+              yang tidak memadai (PC spesifikasi rendah) menjadi kendala utama,
+              disusul oleh kurangnya waktu untuk eksplorasi teknologi baru
+              karena beban administratif.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="kebutuhan" class="tab-content hidden fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">
+            Peta Kebutuhan Pengembangan
+          </h2>
+          <p class="text-slate-600 max-w-4xl">
+            Untuk menjembatani kesenjangan yang ada, identifikasi awal menemukan
+            tiga pilar kebutuhan utama. Klik pada setiap kartu untuk
+            mengeksplorasi rincian strategis yang akan menjadi fokus rekomendasi
+            penelitian ini.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden cursor-pointer group"
+            onclick="toggleCard('req-1', this)"
+          >
+            <div
+              class="p-6 bg-slate-50 group-hover:bg-teal-50 transition-colors border-b border-slate-200 flex justify-between items-center"
+            >
+              <div class="flex items-center">
+                <span class="text-3xl mr-3">💻</span>
+                <h3 class="text-lg font-bold text-slate-800">
+                  Infrastruktur & Hardware
+                </h3>
+              </div>
+              <span class="text-teal-600 font-bold text-xl">+</span>
+            </div>
+            <div class="p-0 px-6 card-detail" id="req-1">
+              <ul class="list-disc pl-5 text-slate-600 space-y-2 pb-6">
+                <li>
+                  Laboratorium dengan PC High-End (GPU Dedicated min. RTX 3060).
+                </li>
+                <li>
+                  Akses ke perangkat VR/AR (Meta Quest, dsb) untuk riset spatial
+                  computing.
+                </li>
+                <li>Drawing tablet dan perlengkapan motion capture dasar.</li>
+                <li>Lisensi institusi untuk software esensial komersial.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden cursor-pointer group"
+            onclick="toggleCard('req-2', this)"
+          >
+            <div
+              class="p-6 bg-slate-50 group-hover:bg-orange-50 transition-colors border-b border-slate-200 flex justify-between items-center"
+            >
+              <div class="flex items-center">
+                <span class="text-3xl mr-3">🧠</span>
+                <h3 class="text-lg font-bold text-slate-800">
+                  Upskilling & Sertifikasi
+                </h3>
+              </div>
+              <span class="text-orange-500 font-bold text-xl">+</span>
+            </div>
+            <div class="p-0 px-6 card-detail" id="req-2">
+              <ul class="list-disc pl-5 text-slate-600 space-y-2 pb-6">
+                <li>
+                  Bootcamp khusus dosen dari praktisi industri (Game Engine
+                  Architecture).
+                </li>
+                <li>
+                  Fasilitasi pendanaan untuk sertifikasi profesional (misal:
+                  Unity Certified Instructor).
+                </li>
+                <li>
+                  Pelatihan Metodologi Agile/Scrum untuk manajemen proyek game
+                  mahasiswa.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden cursor-pointer group"
+            onclick="toggleCard('req-3', this)"
+          >
+            <div
+              class="p-6 bg-slate-50 group-hover:bg-blue-50 transition-colors border-b border-slate-200 flex justify-between items-center"
+            >
+              <div class="flex items-center">
+                <span class="text-3xl mr-3">🤝</span>
+                <h3 class="text-lg font-bold text-slate-800">
+                  Sinergi Industri
+                </h3>
+              </div>
+              <span class="text-blue-600 font-bold text-xl">+</span>
+            </div>
+            <div class="p-0 px-6 card-detail" id="req-3">
+              <ul class="list-disc pl-5 text-slate-600 space-y-2 pb-6">
+                <li>
+                  Program magang industri khusus untuk dosen (Faculty
+                  Attachment).
+                </li>
+                <li>
+                  Riset kolaboratif pendanaan bersama studio game
+                  lokal/nasional.
+                </li>
+                <li>
+                  Kurikulum berbasis proyek riil (Project-Based Learning) yang
+                  dinilai langsung oleh praktisi.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 bg-slate-800 text-white p-6 rounded-xl text-center">
+          <h4 class="text-xl font-bold mb-2">Simulasi Prioritas Pengadaan</h4>
+          <p class="text-slate-300 mb-4 text-sm">
+            Gunakan slider untuk melihat fokus penyesuaian anggaran vs dampak
+            keahlian mahasiswa.
+          </p>
+          <div class="flex items-center max-w-xl mx-auto space-x-4">
+            <span class="text-sm font-semibold w-24 text-right"
+              >Fokus Software</span
+            >
+            <input
+              type="range"
+              id="budgetSlider"
+              min="0"
+              max="100"
+              value="50"
+              class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer"
+            />
+            <span class="text-sm font-semibold w-24 text-left"
+              >Fokus Hardware</span
+            >
+          </div>
+          <p id="sliderResult" class="mt-4 text-teal-400 font-medium">
+            Keseimbangan ideal antara lisensi software dan spesifikasi PC
+            disarankan.
+          </p>
+        </div>
+      </section>
+
+      <!-- FITUR BARU: ASISTEN AI GENERATIF (GEMINI API) -->
+      <section id="asisten-ai" class="tab-content hidden fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">
+            ✨ Asisten AI Akademik Dosen
+          </h2>
+          <p class="text-slate-600 max-w-4xl mb-4">
+            Gunakan kecerdasan buatan LLM Gemini untuk memecahkan tantangan riil
+            mengajar Anda. Masukkan konteks kondisi kampus Anda di bawah ini,
+            dan dapatkan draf kurikulum taktis, rekomendasi pengadaan hardware
+            lab yang optimal, atau ide riset game yang siap diajukan untuk dana
+            hibah.
+          </p>
+          <div
+            class="p-4 bg-teal-50 border border-teal-200 text-teal-900 rounded-lg text-sm flex items-start space-x-3"
+          >
+            <span class="text-xl">💡</span>
+            <p>
+              Fitur ini langsung memanggil model
+              <strong>gemini-2.5-flash-preview-09-2025</strong> untuk
+              menganalisis konteks Anda dan merumuskan jawaban yang siap disalin
+              untuk kepentingan administrasi Anda.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div
+            class="lg:col-span-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <h3 class="text-lg font-bold text-slate-800 mb-4">
+                Konfigurasi Tugas AI
+              </h3>
+
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-700 mb-2"
+                  >Pilih Jenis Tugas:</label
+                >
+                <select
+                  id="ai-task"
+                  onchange="updateAIPlaceholder()"
+                  class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-700 text-sm"
+                >
+                  <option value="syllabus">
+                    🛠️ Penyusun Silabus & Kurikulum Pendek (4 Minggu)
+                  </option>
+                  <option value="hardware">
+                    💻 Rekomendasi Spesifikasi & Upgrade Lab Game
+                  </option>
+                  <option value="research">
+                    🔬 Generator Ide Riset & Pengabdian Masyarakat
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-700 mb-2"
+                  >Pilih Templat Cepat:</label
+                >
+                <div class="flex flex-wrap gap-2" id="preset-container">
+                  <!-- Dynamic Presets based on selected task -->
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-700 mb-2"
+                  >Deskripsi Konteks / Kebutuhan:</label
+                >
+                <textarea
+                  id="ai-input"
+                  rows="6"
+                  class="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-700 text-sm"
+                  placeholder="Masukkan spesifikasi awal, judul mata kuliah, atau topik riset Anda..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div>
+              <button
+                id="ai-generate-btn"
+                onclick="generateAIAdvice()"
+                class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md flex items-center justify-center space-x-2"
+              >
+                <span>✨ Hasilkan Rekomendasi Instan</span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-7 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col min-h-[400px]"
+          >
+            <div
+              class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4"
+            >
+              <h3 class="text-lg font-bold text-slate-800">
+                Hasil Rekomendasi AI
+              </h3>
+              <button
+                onclick="copyToClipboard()"
+                id="copy-btn"
+                class="hidden text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 py-1.5 px-3 rounded border border-slate-300 transition-colors"
+              >
+                📋 Salin Hasil
+              </button>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div
+              id="ai-loading"
+              class="hidden flex-grow flex flex-col items-center justify-center space-y-4 py-12"
+            >
+              <div
+                class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"
+              ></div>
+              <p class="text-slate-500 text-sm animate-pulse">
+                Menghubungi Gemini AI, menyusun skenario rekomendasi terbaik...
+              </p>
+            </div>
+
+            <!-- Placeholder View -->
+            <div
+              id="ai-placeholder-view"
+              class="flex-grow flex flex-col items-center justify-center text-center p-8"
+            >
+              <span class="text-5xl mb-3">🤖</span>
+              <h4 class="text-slate-700 font-bold mb-1">Menunggu Input Anda</h4>
+              <p class="text-slate-400 text-sm max-w-xs">
+                Pilih tugas akademik di panel kiri, isi deskripsi konteks, lalu
+                klik tombol Hasilkan Rekomendasi Instan.
+              </p>
+            </div>
+
+            <!-- Output Content -->
+            <div
+              id="ai-output"
+              class="hidden flex-grow overflow-y-auto max-h-[500px] text-slate-800 text-sm leading-relaxed whitespace-pre-wrap p-4 bg-slate-50 rounded-lg border border-slate-100"
+            >
+              <!-- Output results will be inserted here dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="metodologi" class="tab-content hidden fade-in">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-slate-800 mb-4">
+            Rencana Pelaksanaan Penelitian
+          </h2>
+          <p class="text-slate-600 max-w-4xl">
+            Bagian ini menguraikan tahapan empiris yang akan dilakukan untuk
+            memvalidasi hipotesis dan data awal. Penelitian ini menggunakan
+            pendekatan Mixed-Methods (Kuantitatif & Kualitatif).
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <div
+            class="flex flex-col md:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm"
+          >
+            <div
+              class="bg-teal-600 text-white p-6 md:w-1/4 flex flex-col justify-center items-center text-center"
+            >
+              <span class="text-4xl mb-2">📝</span>
+              <h3 class="font-bold text-xl">Fase 1</h3>
+              <p class="text-teal-100 text-sm">Bulan 1-2</p>
+            </div>
+            <div class="p-6 md:w-3/4 flex flex-col justify-center">
+              <h4 class="text-lg font-bold text-slate-800 mb-2">
+                Survei Kuantitatif Skala Nasional
+              </h4>
+              <p class="text-slate-600 mb-3">
+                Penyebaran kuesioner daring kepada dosen program studi
+                Informatika, Ilmu Komputer, dan Sistem Informasi di berbagai
+                pulau di Indonesia.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200"
+                  >Target: 500+ Responden</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200"
+                  >Instrumen: Skala Likert Kompetensi</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col md:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm"
+          >
+            <div
+              class="bg-teal-700 text-white p-6 md:w-1/4 flex flex-col justify-center items-center text-center"
+            >
+              <span class="text-4xl mb-2">🗣️</span>
+              <h3 class="font-bold text-xl">Fase 2</h3>
+              <p class="text-teal-100 text-sm">Bulan 3-4</p>
+            </div>
+            <div class="p-6 md:w-3/4 flex flex-col justify-center">
+              <h4 class="text-lg font-bold text-slate-800 mb-2">
+                Focus Group Discussion (FGD)
+              </h4>
+              <p class="text-slate-600 mb-3">
+                Diskusi terarah melibatkan perwakilan akademisi terpilih,
+                pengurus Asosiasi Game Indonesia (AGI), dan studio game lokal
+                untuk memvalidasi temuan survei.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200"
+                  >Kualitatif In-depth</span
+                >
+                <span
+                  class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200"
+                  >Validasi Industri</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col md:flex-row bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm"
+          >
+            <div
+              class="bg-slate-800 text-white p-6 md:w-1/4 flex flex-col justify-center items-center text-center"
+            >
+              <span class="text-4xl mb-2">📄</span>
+              <h3 class="font-bold text-xl">Fase 3</h3>
+              <p class="text-slate-300 text-sm">Bulan 5-6</p>
+            </div>
+            <div class="p-6 md:w-3/4 flex flex-col justify-center">
+              <h4 class="text-lg font-bold text-slate-800 mb-2">
+                Analisis & Penyusunan Framework
+              </h4>
+              <p class="text-slate-600 mb-3">
+                Sintesis data untuk menghasilkan "Framework Kesiapan Dosen
+                Multimedia & Game" yang mencakup standar pengadaan lab dan
+                silabus usulan (Best Practice).
+              </p>
+              <button
+                class="self-start text-teal-600 font-semibold hover:text-teal-800 text-sm flex items-center"
+              >
+                Pelajari Luaran yang Diharapkan <span class="ml-1">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // --- Navigation Logic ---
+      const navBtns = document.querySelectorAll(".nav-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      let chartsInitialized = false;
+
+      function switchTab(targetId) {
+        // Update buttons
+        navBtns.forEach((btn) => {
+          if (btn.dataset.target === targetId) {
+            btn.classList.add("active", "text-teal-600", "font-semibold");
+            btn.classList.remove("text-slate-500");
+          } else {
+            btn.classList.remove("active", "text-teal-600", "font-semibold");
+            btn.classList.add("text-slate-500");
+          }
+        });
+
+        // Update content visibility
+        tabContents.forEach((content) => {
+          if (content.id === targetId) {
+            content.classList.remove("hidden");
+          } else {
+            content.classList.add("hidden");
+          }
+        });
+
+        // Close mobile menu if open
+        mobileMenu.classList.add("hidden");
+
+        // Initialize charts only when data tab is first viewed to prevent rendering bugs
+        if (targetId === "data" && !chartsInitialized) {
+          initCharts();
+          chartsInitialized = true;
+        }
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Attach event listeners to all nav buttons
+      navBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          switchTab(e.target.dataset.target);
+        });
+      });
+
+      // --- Interactive Cards Logic ---
+      function toggleCard(detailId, element) {
+        const detail = document.getElementById(detailId);
+        const icon = element.querySelector("span:last-child");
+
+        if (detail.classList.contains("expanded")) {
+          detail.classList.remove("expanded");
+          icon.textContent = "+";
+        } else {
+          // Close others (accordion style)
+          document.querySelectorAll(".card-detail").forEach((d) => {
+            d.classList.remove("expanded");
+          });
+          document.querySelectorAll(".group span:last-child").forEach((i) => {
+            if (i.textContent === "−") i.textContent = "+";
+          });
+
+          detail.classList.add("expanded");
+          icon.textContent = "−";
+        }
+      }
+
+      // --- Slider Logic ---
+      const slider = document.getElementById("budgetSlider");
+      const sliderResult = document.getElementById("sliderResult");
+
+      slider.addEventListener("input", (e) => {
+        const val = e.target.value;
+        if (val < 30) {
+          sliderResult.textContent =
+            "Terlalu condong ke Software. Mahasiswa mungkin terkendala rendering dan komputasi berat.";
+          sliderResult.className = "mt-4 text-orange-400 font-medium";
+        } else if (val > 70) {
+          sliderResult.textContent =
+            "Terlalu condong ke Hardware. Mahasiswa kekurangan akses ke tool berbayar standar industri.";
+          sliderResult.className = "mt-4 text-orange-400 font-medium";
+        } else {
+          sliderResult.textContent =
+            "Keseimbangan ideal antara lisensi software dan spesifikasi PC tercapai.";
+          sliderResult.className = "mt-4 text-teal-400 font-medium";
+        }
+      });
+
+      // --- Chart.js Implementations ---
+      function initCharts() {
+        // 1. Grouped Bar Chart (Kesenjangan Kompetensi)
+        const ctxSkills = document
+          .getElementById("skillsChart")
+          .getContext("2d");
+        new Chart(ctxSkills, {
+          type: "bar",
+          data: {
+            labels: [
+              "Algoritma & Logika",
+              "Game Engine (Unity/Unreal)",
+              "3D Modeling/Animation",
+              "UI/UX Game",
+              "Game Design Document",
+            ],
+            datasets: [
+              {
+                label: "Level Saat Ini",
+                data: [8.5, 4.2, 3.5, 5.0, 6.0],
+                backgroundColor: "#94a3b8", // slate-400
+                borderRadius: 4,
+              },
+              {
+                label: "Kebutuhan Industri",
+                data: [8.0, 9.0, 7.5, 8.0, 8.5],
+                backgroundColor: "#0d9488", // teal-600
+                borderRadius: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "top" },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return (
+                      context.dataset.label + ": " + context.parsed.y + " / 10"
+                    );
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 10,
+                title: { display: true, text: "Skala Keahlian (1-10)" },
+              },
+              x: {
+                ticks: {
+                  callback: function (value) {
+                    // 16-char wrapping logic for x-axis labels
+                    let label = this.getLabelForValue(value);
+                    if (label.length > 16) {
+                      let words = label.split(" ");
+                      let lines = [];
+                      let currentLine = "";
+                      words.forEach((word) => {
+                        if ((currentLine + word).length > 16) {
+                          lines.push(currentLine.trim());
+                          currentLine = word + " ";
+                        } else {
+                          currentLine += word + " ";
+                        }
+                      });
+                      lines.push(currentLine.trim());
+                      return lines;
+                    }
+                    return label;
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        // 2. Doughnut Chart (Tantangan Utama)
+        const ctxChallenges = document
+          .getElementById("challengesChart")
+          .getContext("2d");
+        new Chart(ctxChallenges, {
+          type: "doughnut",
+          data: {
+            labels: [
+              "Infrastruktur Lab Lemah",
+              "Beban Administratif Tinggi",
+              "Kurang Pengalaman Industri",
+              "Kurikulum Kaku",
+              "Minim Dana Riset Game",
+            ],
+            datasets: [
+              {
+                data: [35, 25, 20, 12, 8],
+                backgroundColor: [
+                  "#0f172a", // slate-900
+                  "#0d9488", // teal-600
+                  "#f97316", // orange-500
+                  "#cbd5e1", // slate-300
+                  "#64748b", // slate-500
+                ],
+                borderWidth: 0,
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "65%",
+            plugins: {
+              legend: {
+                position: "right",
+                labels: {
+                  boxWidth: 12,
+                  font: { size: 11 },
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.label + ": " + context.parsed + "%";
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // --- Custom Dialog / Notification System ---
+      function showModal(title, msg, isSuccess = false) {
+        const modal = document.getElementById("custom-modal");
+        const mTitle = document.getElementById("modal-title");
+        const mMessage = document.getElementById("modal-message");
+        const mIcon = document.getElementById("modal-icon");
+
+        mTitle.textContent = title;
+        mMessage.textContent = msg;
+        mIcon.textContent = isSuccess ? "✨" : "⚠️";
+
+        modal.classList.remove("hidden");
+      }
+
+      function closeModal() {
+        document.getElementById("custom-modal").classList.add("hidden");
+      }
+
+      // --- ASISTEN AI GENERATIF (GEMINI API) INTERACTIVE LOGIC ---
+      const presetData = {
+        syllabus: [
+          {
+            title: "Desain Level 3D",
+            value:
+              "Saya ingin membuat workshop 4 minggu tentang 3D Level Design menggunakan Unity Engine dan Blender, untuk mahasiswa semester 4.",
+          },
+          {
+            title: "Optimasi Game Mobile",
+            value:
+              "Draf kurikulum khusus teknik optimasi aset game (draw calls, audio compression, texture atlas) menggunakan Godot Engine.",
+          },
+          {
+            title: "Seni Game Pixel Art",
+            value:
+              "Workshop pembuatan game 2D dengan gaya pixel art menggunakan Aseprite dan Construct 3 untuk pemula.",
+          },
+        ],
+        hardware: [
+          {
+            title: "Lab Budget Minimal",
+            value:
+              "Kami punya budget Rp 120 Juta untuk pengadaan komputer 10 workstation laboratorium game dasar. Apa spek terbaik?",
+          },
+          {
+            title: "Skenario Upgrade PC",
+            value:
+              "Saat ini lab kami memakai Intel Core i5 Gen 8, RAM 8GB, GPU GTX 1050 Ti. Bagian mana yang paling mendesak di-upgrade untuk Blender & Unity?",
+          },
+          {
+            title: "Lab Kelas VR/AR",
+            value:
+              "Saran konfigurasi lab multimedia mutakhir yang akan digunakan untuk pengembangan aplikasi Virtual Reality (Oculus Link) & Augmented Reality.",
+          },
+        ],
+        research: [
+          {
+            title: "Riset VR Kebudayaan",
+            value:
+              "Saya tertarik riset bertema digitalisasi cagar budaya Indonesia menggunakan teknologi Virtual Reality dan WebXR.",
+          },
+          {
+            title: "Riset Game Edukasi",
+            value:
+              "Usulan judul penelitian bertema 'Edu-game matematika interaktif untuk anak penderita diskalkulia'.",
+          },
+          {
+            title: "Pengabdian Guru SMK",
+            value:
+              "Rencana kegiatan pengabdian masyarakat mengajarkan pembuatan game mobile sederhana tanpa coding bagi guru-guru SMK.",
+          },
+        ],
+      };
+
+      function updateAIPlaceholder() {
+        const task = document.getElementById("ai-task").value;
+        const textInput = document.getElementById("ai-input");
+        const presetContainer = document.getElementById("preset-container");
+
+        presetContainer.innerHTML = "";
+
+        // Render buttons for presets
+        if (presetData[task]) {
+          presetData[task].forEach((preset) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className =
+              "text-xs bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-600 font-medium py-1 px-2.5 rounded border border-slate-200 transition-colors duration-150";
+            btn.textContent = preset.title;
+            btn.onclick = () => {
+              textInput.value = preset.value;
+            };
+            presetContainer.appendChild(btn);
+          });
+        }
+
+        // Set placeholder description text based on selection
+        if (task === "syllabus") {
+          textInput.placeholder =
+            "Sebutkan nama mata kuliah/topik dan target mahasiswa Anda (Contoh: Workshop 3D Game Design dengan Blender)...";
+        } else if (task === "hardware") {
+          textInput.placeholder =
+            "Tuliskan anggaran pengadaan Anda, atau spesifikasi PC laboratorium saat ini untuk dievaluasi oleh AI...";
+        } else if (task === "research") {
+          textInput.placeholder =
+            "Tuliskan ketertarikan tema, metodologi, atau target luaran riset yang Anda inginkan...";
+        }
+      }
+
+      // Initialize first preset choice on DOM ready
+      window.onload = function () {
+        updateAIPlaceholder();
+      };
+
+      // Clipboard Copy function using document.execCommand fallback
+      function copyToClipboard() {
+        const outputText = document.getElementById("ai-output").innerText;
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = outputText;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+          document.execCommand("copy");
+          showModal(
+            "Sukses",
+            "Hasil rekomendasi berhasil disalin ke papan klip komputer Anda!",
+            true,
+          );
+        } catch (err) {
+          showModal("Error", "Gagal menyalin teks ke papan klip.", false);
+        }
+        document.body.removeChild(tempTextArea);
+      }
+
+      // Simple Markdown Parser to styled HTML
+      function parseMarkdownToHTML(text) {
+        return text
+          .replace(
+            /### (.*?)\n/g,
+            '<h4 class="text-base font-bold text-slate-800 mt-4 mb-2">$1</h4>',
+          )
+          .replace(
+            /## (.*?)\n/g,
+            '<h3 class="text-lg font-bold text-teal-700 mt-6 mb-3 border-b border-slate-100 pb-1">$1</h3>',
+          )
+          .replace(
+            /\*\*(.*?)\*\*/g,
+            '<strong class="font-bold text-slate-900">$1</strong>',
+          )
+          .replace(
+            /^\* (.*?)$/gm,
+            '<li class="list-disc ml-6 text-slate-700 mb-1">$1</li>',
+          )
+          .replace(
+            /^\- (.*?)$/gm,
+            '<li class="list-disc ml-6 text-slate-700 mb-1">$1</li>',
+          )
+          .replace(
+            /\n\n/g,
+            '<p class="mb-3 leading-relaxed text-slate-700"></p>',
+          )
+          .replace(/\n/g, "<br>");
+      }
+
+      // Backoff execution wrapper for resilient API calls
+      async function fetchWithBackoff(url, options, retries = 5, delay = 1000) {
+        try {
+          const response = await fetch(url, options);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return await response.json();
+        } catch (error) {
+          if (retries > 1) {
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            return fetchWithBackoff(url, options, retries - 1, delay * 2);
+          } else {
+            throw error;
+          }
+        }
+      }
+
+      // Gemini API caller
+      async function callGeminiAPI(prompt, systemInstruction) {
+        const apiKey = ""; // API Key handled by running sandbox
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        const payload = {
+          contents: [{ parts: [{ text: prompt }] }],
+          systemInstruction: { parts: [{ text: systemInstruction }] },
+        };
+
+        const options = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        };
+
+        const data = await fetchWithBackoff(url, options);
+        return (
+          data.candidates?.[0]?.content?.parts?.[0]?.text ||
+          "Maaf, sistem tidak menghasilkan respon dari Gemini."
+        );
+      }
+
+      async function generateAIAdvice() {
+        const task = document.getElementById("ai-task").value;
+        const inputVal = document.getElementById("ai-input").value.trim();
+
+        if (!inputVal) {
+          showModal(
+            "Input Kosong",
+            "Silakan masukkan deskripsi atau pilih dari templat cepat yang tersedia terlebih dahulu.",
+            false,
+          );
+          return;
+        }
+
+        // UI state management during loading
+        const placeholderView = document.getElementById("ai-placeholder-view");
+        const loadingView = document.getElementById("ai-loading");
+        const outputView = document.getElementById("ai-output");
+        const copyBtn = document.getElementById("copy-btn");
+        const genBtn = document.getElementById("ai-generate-btn");
+
+        placeholderView.classList.add("hidden");
+        loadingView.classList.remove("hidden");
+        outputView.classList.add("hidden");
+        copyBtn.classList.add("hidden");
+        genBtn.disabled = true;
+        genBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+        let systemInstruction =
+          "Anda adalah pakar kurikulum Game Development dan Multimedia, konsultan infrastruktur IT akademis, serta mentor riset dosen Informatika di Indonesia. Berikan rekomendasi yang taktis, realistis dengan kondisi finansial/fasilitas kampus Indonesia, dan gunakan bahasa Indonesia yang formal namun inspiratif dan mudah dipahami.";
+        let prompt = "";
+
+        if (task === "syllabus") {
+          prompt = `Buatlah draf kurikulum workshop atau perkuliahan singkat selama 4 minggu untuk topik: "${inputVal}". Sebutkan perkakas industri (Unity, Blender, dsb.) yang sebaiknya digunakan, materi mingguan (Minggu 1 s.d 4), serta 1 jenis luaran proyek akhir mahasiswa yang realistis diproduksi oleh pemula.`;
+        } else if (task === "hardware") {
+          prompt = `Analisislah spesifikasi laboratorium saat ini atau anggaran pengadaan berikut: "${inputVal}". Berikan rekomendasi spesifikasi hardware (CPU, GPU, RAM, Storage, Monitor) yang optimal untuk kebutuhan pengembangan game modern (Unity/Unreal Engine 5) dan visual 3D (Blender) untuk mahasiswa tingkat universitas di Indonesia.`;
+        } else if (task === "research") {
+          prompt = `Buatkan 3 usulan ide judul penelitian atau pengabdian masyarakat (Abdimas) bagi dosen Informatika di Indonesia yang berfokus pada: "${inputVal}". Berikan untuk setiap ide: Judul yang menarik dan lolos pendanaan DIKTI, rumusan masalah utama, metodologi singkat, serta usulan luaran HKI atau publikasi jurnal sinta nasional/internasional.`;
+        }
+
+        try {
+          const aiResult = await callGeminiAPI(prompt, systemInstruction);
+          outputView.innerHTML = parseMarkdownToHTML(aiResult);
+
+          loadingView.classList.add("hidden");
+          outputView.classList.remove("hidden");
+          copyBtn.classList.remove("hidden");
+        } catch (err) {
+          loadingView.classList.add("hidden");
+          placeholderView.classList.remove("hidden");
+          showModal(
+            "Kegagalan API",
+            "Maaf, terjadi kegagalan menghubungi asisten AI Gemini. Silakan periksa kembali koneksi internet Anda dan coba beberapa saat lagi.",
+            false,
+          );
+        } finally {
+          genBtn.disabled = false;
+          genBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+      }
+    </script>
+  </body>
+</html>

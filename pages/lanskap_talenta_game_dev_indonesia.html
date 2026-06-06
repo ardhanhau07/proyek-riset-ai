@@ -1,0 +1,1770 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lanskap Kebutuhan Talenta Game Developer Indonesia</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              stone: {
+                50: "#fafaf9",
+                100: "#f5f5f4",
+                200: "#e7e5e4",
+                300: "#d6d3d1",
+                400: "#a8a29e",
+                500: "#78716c",
+                600: "#57534e",
+                700: "#44403c",
+                800: "#292524",
+                900: "#1c1917",
+              },
+              teal: {
+                500: "#14b8a6",
+                600: "#0d9488",
+                700: "#0f766e",
+              },
+              amber: {
+                500: "#f59e0b",
+                600: "#d97706",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("menu-toggle-btn");
+        const mobileMenu = document.getElementById("mobile-menu-panel");
+        const hamburgerIcon = document.getElementById("icon-hamburger");
+        const closeIcon = document.getElementById("icon-close");
+
+        if (toggleBtn && mobileMenu) {
+          toggleBtn.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
+            if (hamburgerIcon) hamburgerIcon.classList.toggle("hidden");
+            if (closeIcon) closeIcon.classList.toggle("hidden");
+          });
+
+          // Menutup menu mobile saat link diklik
+          const mobileLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+          mobileLinks.forEach(function (link) {
+            link.addEventListener("click", function () {
+              mobileMenu.classList.add("hidden");
+              if (hamburgerIcon) hamburgerIcon.classList.remove("hidden");
+              if (closeIcon) closeIcon.classList.add("hidden");
+            });
+          });
+        }
+      });
+    </script>
+
+    <style>
+      /* Base typography adjustments */
+      body {
+        background-color: #fafaf9; /* stone-50 */
+        color: #292524; /* stone-800 */
+      }
+
+      /* * MANDATORY CHART CONTAINER STYLING 
+         * Ensures charts are responsive, do not overflow, and maintain boundaries.
+         */
+      .chart-container {
+        position: relative;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden; /* Prevent any canvas rendering outside the box */
+      }
+
+      /* Custom Scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f5f5f4;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #d6d3d1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a8a29e;
+      }
+
+      /* Interactive button transitions */
+      .interactive-btn {
+        transition: all 0.2s ease-in-out;
+      }
+      .interactive-btn.active {
+        background-color: #0d9488; /* teal-600 */
+        color: white;
+        border-color: #0d9488;
+      }
+    </style>
+  </head>
+  <body class="antialiased selection:bg-teal-200 selection:text-teal-900">
+    <!-- Navigation -->
+    <nav
+      class="sticky top-0 bg-stone-50/90 backdrop-blur-md border-b border-stone-200 z-50"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <div
+          class="font-bold text-xl text-teal-700 tracking-tight whitespace-nowrap"
+        >
+          GameDevData<span class="text-amber-600">ID</span>
+        </div>
+
+        <div
+          class="hidden lg:flex items-center space-x-4 xl:space-x-6 text-sm font-medium text-stone-600"
+        >
+          <a
+            href="#industri"
+            class="hover:text-teal-600 transition-colors whitespace-nowrap"
+            >Pertumbuhan Industri</a
+          >
+          <a
+            href="#kesenjangan"
+            class="hover:text-teal-600 transition-colors whitespace-nowrap"
+            >Kesenjangan Talenta</a
+          >
+          <a
+            href="#peran"
+            class="hover:text-teal-600 transition-colors whitespace-nowrap"
+            >Eksplorasi Peran</a
+          >
+          <a
+            href="#ai-hub"
+            class="text-teal-600 font-semibold hover:text-teal-700 transition-colors flex items-center gap-1 whitespace-nowrap"
+          >
+            <span class="animate-pulse">✨</span> AI Hub Talenta
+          </a>
+          <a
+            href="#solusi"
+            class="hover:text-teal-600 transition-colors whitespace-nowrap"
+            >Solusi</a
+          >
+
+          <div class="relative group inline-block text-left">
+            <button
+              class="hover:text-teal-600 transition-colors inline-flex items-center gap-1 focus:outline-none whitespace-nowrap"
+            >
+              Blog Lainnya
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            <div
+              class="absolute right-0 top-full pt-4 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+            >
+              <div
+                class="bg-white rounded-lg shadow-lg border border-stone-100 py-2 flex flex-col overflow-hidden font-normal"
+              >
+                <a
+                  href="../index.html"
+                  class="px-4 py-2.5 text-sm text-stone-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                  >Hub Utama</a
+                >
+                <a
+                  href="lanskap_talenta_game_dev_indonesia.html"
+                  class="px-4 py-2.5 text-sm text-stone-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                  >Lanskap Game Dev</a
+                >
+                <a
+                  href="laporan_analisis_kebutuhan_dosen.html"
+                  class="px-4 py-2.5 text-sm text-stone-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                  >Analisis Kebutuhan Dosen</a
+                >
+                <a
+                  href="laporan_karir_informatika.html"
+                  class="px-4 py-2.5 text-sm text-stone-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                  >Karir Informatika</a
+                >
+                <a
+                  href="laporan_kebutuhan_dosen_game_dev_id.html"
+                  class="px-4 py-2.5 text-sm text-stone-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                  >Dosen Game Dev</a
+                >
+                <a
+                  href="laporan_peran_dosen.html"
+                  class="px-4 py-2.5 text-sm text-stone-600 hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                  >Peran Dosen</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex lg:hidden">
+          <button
+            id="menu-toggle-btn"
+            class="text-stone-600 hover:text-teal-600 inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors"
+          >
+            <svg
+              class="h-6 w-6"
+              stroke="currentColor"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                id="icon-hamburger"
+                class="inline-flex"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                id="icon-close"
+                class="hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu-panel"
+        class="hidden lg:hidden border-t border-stone-200 bg-stone-50/95 backdrop-blur-md absolute w-full left-0 top-full shadow-md max-h-[calc(100vh-4rem)] overflow-y-auto"
+      >
+        <div
+          class="px-4 pt-3 pb-6 space-y-1 flex flex-col font-medium text-stone-600"
+        >
+          <a
+            href="#industri"
+            class="hover:text-teal-600 hover:bg-stone-200/50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Pertumbuhan Industri</a
+          >
+          <a
+            href="#kesenjangan"
+            class="hover:text-teal-600 hover:bg-stone-200/50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Kesenjangan Talenta</a
+          >
+          <a
+            href="#peran"
+            class="hover:text-teal-600 hover:bg-stone-200/50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Eksplorasi Peran</a
+          >
+          <a
+            href="#ai-hub"
+            class="text-teal-700 bg-teal-50 hover:bg-teal-100 px-3 py-2.5 rounded-md text-base flex items-center gap-2 transition-colors"
+          >
+            <span class="animate-pulse">✨</span> AI Hub Talenta
+          </a>
+          <a
+            href="#solusi"
+            class="hover:text-teal-600 hover:bg-stone-200/50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Solusi</a
+          >
+
+          <div class="pt-4 border-t border-stone-200 mt-2">
+            <span
+              class="px-3 text-xs font-bold text-stone-400 uppercase tracking-wider"
+              >Daftar Blog Lainnya</span
+            >
+            <div class="mt-2 space-y-1 pl-2 font-normal">
+              <a
+                href="../index.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-stone-200/50 hover:text-teal-700 transition-colors"
+                >Hub Utama</a
+              >
+              <a
+                href="lanskap_talenta_game_dev_indonesia.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-stone-200/50 hover:text-teal-700 transition-colors"
+                >Lanskap Game Dev</a
+              >
+              <a
+                href="laporan_analisis_kebutuhan_dosen.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-stone-200/50 hover:text-teal-700 transition-colors"
+                >Analisis Kebutuhan Dosen</a
+              >
+              <a
+                href="laporan_karir_informatika.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-stone-200/50 hover:text-teal-700 transition-colors"
+                >Karir Informatika</a
+              >
+              <a
+                href="laporan_kebutuhan_dosen_game_dev_id.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-stone-200/50 hover:text-teal-700 transition-colors"
+                >Dosen Game Dev</a
+              >
+              <a
+                href="laporan_peran_dosen.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-stone-200/50 hover:text-teal-700 transition-colors"
+                >Peran Dosen</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header / Hero -->
+    <header class="py-20 px-4 text-center max-w-4xl mx-auto">
+      <div
+        class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider rounded-full mb-6"
+      >
+        Laporan Interaktif 2024
+      </div>
+      <h1
+        class="text-4xl md:text-5xl font-extrabold text-stone-800 mb-6 leading-tight"
+      >
+        Menavigasi Kebutuhan Talenta <br /><span class="text-teal-600"
+          >Game Developer</span
+        >
+        di Indonesia
+      </h1>
+      <p class="text-lg md:text-xl text-stone-600 leading-relaxed mb-8">
+        Industri game Indonesia berkembang pesat, namun tantangan terbesar saat
+        ini bukanlah ide, melainkan
+        <strong>ketersediaan talenta yang siap industri</strong>. Jelajahi data,
+        temukan kesenjangan, dan pahami keterampilan yang paling dicari.
+      </p>
+    </header>
+
+    <!-- Section 1: Pertumbuhan Industri -->
+    <section
+      id="industri"
+      class="py-16 px-4 bg-white border-t border-stone-200"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-stone-800 mb-4">
+            Pertumbuhan Pasar vs Kesiapan Studio
+          </h2>
+          <p class="text-stone-600">
+            Seksi ini mengilustrasikan potensi pasar game di Indonesia yang
+            terus menanjak dalam 5 tahun terakhir. Namun, pertumbuhan pendapatan
+            (revenue) seringkali terhambat oleh lambatnya pertumbuhan kapasitas
+            studio lokal karena kesulitan merekrut talenta menengah hingga
+            senior.
+          </p>
+        </div>
+
+        <!-- Chart Container for Line Chart -->
+        <div
+          class="chart-container w-full max-w-4xl mx-auto h-[350px] md:h-[450px]"
+        >
+          <canvas id="growthChart"></canvas>
+        </div>
+        <p class="text-center text-xs text-stone-400 mt-4">
+          *Data ilustratif berdasarkan agregasi laporan industri 2019-2023.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 2: Kesenjangan Talenta -->
+    <section id="kesenjangan" class="py-16 px-4 bg-stone-100">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-stone-800 mb-4">
+            Realita Kesenjangan Talenta
+          </h2>
+          <p class="text-stone-600">
+            Banyak lulusan institusi pendidikan, namun sedikit yang memenuhi
+            standar industri (<em>industry-ready</em>). Grafik di bawah
+            membandingkan jumlah permintaan studio terhadap jumlah talenta yang
+            dinilai siap kerja pada tahun pertama perekrutan, dikategorikan
+            berdasarkan disiplin utama.
+          </p>
+        </div>
+
+        <!-- Chart Container for Bar Chart -->
+        <div
+          class="chart-container w-full max-w-4xl mx-auto h-[400px] md:h-[500px]"
+        >
+          <canvas id="gapChart"></canvas>
+        </div>
+
+        <div
+          class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-4xl mx-auto"
+        >
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm border border-stone-200"
+          >
+            <div class="text-2xl font-bold text-amber-600 mb-1">Terbesar</div>
+            <div class="text-sm font-semibold text-stone-800">
+              Game Programmer
+            </div>
+            <div class="text-xs text-stone-500 mt-2">
+              Kesenjangan tertinggi antara kebutuhan teknis spesifik (engine)
+              dengan kemampuan lulusan.
+            </div>
+          </div>
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm border border-stone-200"
+          >
+            <div class="text-2xl font-bold text-teal-600 mb-1">Meningkat</div>
+            <div class="text-sm font-semibold text-stone-800">
+              Game Designer
+            </div>
+            <div class="text-xs text-stone-500 mt-2">
+              Kebutuhan akan desainer sistem dan ekonomi game meningkat tajam
+              seiring kompleksitas proyek.
+            </div>
+          </div>
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm border border-stone-200"
+          >
+            <div class="text-2xl font-bold text-stone-700 mb-1">Kritis</div>
+            <div class="text-sm font-semibold text-stone-800">
+              Level Senior / Lead
+            </div>
+            <div class="text-xs text-stone-500 mt-2">
+              Kekurangan paling fatal di semua departemen yang menghambat skala
+              studio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Eksplorasi Peran (Interactive) -->
+    <section id="peran" class="py-16 px-4 bg-white border-t border-stone-200">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-stone-800 mb-4">
+            Profil Peran Paling Dicari
+          </h2>
+          <p class="text-stone-600">
+            Pilih departemen di bawah ini untuk melihat detail profil talenta,
+            keterampilan kunci yang paling sulit ditemukan, dan komposisi
+            keahlian (Hard vs Soft Skills) yang diharapkan oleh studio game
+            Indonesia.
+          </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+          <!-- Selectors -->
+          <div class="lg:w-1/3 flex flex-col gap-3">
+            <button
+              class="interactive-btn active w-full text-left px-6 py-4 rounded-xl border border-stone-200 font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 focus:outline-none"
+              data-role="programmer"
+            >
+              <span class="text-xl mr-2">&#128187;</span> Game Programmer
+            </button>
+            <button
+              class="interactive-btn w-full text-left px-6 py-4 rounded-xl border border-stone-200 font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 focus:outline-none"
+              data-role="artist"
+            >
+              <span class="text-xl mr-2">&#127912;</span> 2D/3D Artist
+            </button>
+            <button
+              class="interactive-btn w-full text-left px-6 py-4 rounded-xl border border-stone-200 font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 focus:outline-none"
+              data-role="designer"
+            >
+              <span class="text-xl mr-2">&#128220;</span> Game Designer
+            </button>
+            <button
+              class="interactive-btn w-full text-left px-6 py-4 rounded-xl border border-stone-200 font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 focus:outline-none"
+              data-role="producer"
+            >
+              <span class="text-xl mr-2">&#128188;</span> Game Producer
+            </button>
+          </div>
+
+          <!-- Dynamic Content Display -->
+          <div
+            class="lg:w-2/3 bg-stone-50 rounded-2xl p-6 md:p-8 border border-stone-200 shadow-sm relative overflow-hidden"
+          >
+            <!-- Decorative background element (CSS only) -->
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-teal-100 rounded-bl-full opacity-50 pointer-events-none"
+            ></div>
+
+            <h3
+              id="detailRoleName"
+              class="text-2xl font-bold text-stone-800 mb-2"
+            >
+              Game Programmer
+            </h3>
+            <p id="detailRoleDesc" class="text-stone-600 mb-6 min-h-[4rem]">
+              Tulang punggung pengembangan game. Mengubah desain dan aset
+              menjadi produk interaktif. Di Indonesia, penguasaan Unity (C#) dan
+              Unreal (C++) mendominasi permintaan.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <!-- Dynamic Info -->
+              <div>
+                <h4
+                  class="text-sm font-bold text-stone-400 uppercase tracking-wider mb-3"
+                >
+                  Poin Kritis Perekrutan
+                </h4>
+                <ul id="detailCriticalPoints" class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <span class="text-amber-500 mr-2 font-bold">&#9888;</span>
+                    <span class="text-sm text-stone-700"
+                      >Pemahaman arsitektur kode (bukan sekadar
+                      tutorial-copying).</span
+                    >
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-amber-500 mr-2 font-bold">&#9888;</span>
+                    <span class="text-sm text-stone-700"
+                      >Optimasi performa memori pada platform mobile.</span
+                    >
+                  </li>
+                </ul>
+
+                <div class="bg-white p-4 rounded-lg border border-stone-200">
+                  <div class="text-xs text-stone-500 mb-1">
+                    Tingkat Kesulitan Perekrutan (Senior)
+                  </div>
+                  <div class="w-full bg-stone-200 rounded-full h-2.5">
+                    <div
+                      id="difficultyBar"
+                      class="bg-amber-500 h-2.5 rounded-full"
+                      style="width: 90%"
+                    ></div>
+                  </div>
+                  <div
+                    id="difficultyText"
+                    class="text-right text-xs font-bold text-amber-600 mt-1"
+                  >
+                    Sangat Tinggi
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chart Container for Doughnut -->
+              <div
+                class="chart-container w-full max-w-[250px] mx-auto h-[250px]"
+              >
+                <canvas id="skillsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3.5: AI Hub Talenta (Bertenaga Gemini API) -->
+    <section
+      id="ai-hub"
+      class="py-16 px-4 bg-stone-100 border-t border-b border-stone-200"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <span
+            class="px-3 py-1 bg-teal-100 text-teal-800 text-xs font-bold uppercase tracking-wider rounded-full mb-3 inline-block"
+            >Fitur Cerdas AI</span
+          >
+          <h2 class="text-3xl font-bold text-stone-800 mb-4">
+            Pusat Konsultasi Karier & Wawancara AI
+          </h2>
+          <p class="text-stone-600">
+            Gunakan kecerdasan buatan Gemini untuk mengevaluasi portofolio atau
+            CV Anda secara visual, dan uji kesiapan kerja Anda melalui simulasi
+            wawancara interaktif.
+          </p>
+        </div>
+
+        <!-- Custom Custom Notification Box (No alert) -->
+        <div
+          id="custom-toast"
+          class="hidden fixed bottom-5 right-5 bg-stone-900 text-white px-5 py-3 rounded-xl shadow-2xl z-50 transition-all duration-300 flex items-center gap-2"
+        >
+          <span id="toast-icon">ℹ️</span>
+          <span id="toast-message">Pesan notifikasi</span>
+        </div>
+
+        <!-- AI Tabs Selector -->
+        <div
+          class="max-w-4xl mx-auto bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden"
+        >
+          <div class="flex border-b border-stone-200 bg-stone-50">
+            <button
+              id="ai-tab-btn-evaluator"
+              class="flex-1 py-4 px-6 text-center font-bold text-sm text-teal-600 border-b-2 border-teal-600 focus:outline-none transition-all flex justify-center items-center gap-2"
+            >
+              <span>📋</span> AI Evaluator Portofolio & CV
+            </button>
+            <button
+              id="ai-tab-btn-interview"
+              class="flex-1 py-4 px-6 text-center font-bold text-sm text-stone-500 hover:text-stone-700 focus:outline-none transition-all flex justify-center items-center gap-2"
+            >
+              <span>💬</span> AI Simulasi Wawancara
+            </button>
+          </div>
+
+          <!-- Tab 1 Content: Portfolio & CV Evaluator -->
+          <div id="ai-tab-evaluator" class="p-6 md:p-8 block">
+            <p class="text-sm text-stone-500 mb-6">
+              Minta AI menganalisis profil keahlian Anda berdasarkan tren
+              industri game di Indonesia, lalu dapatkan rekomendasi studi &
+              studio lokal yang cocok.
+              <strong
+                >Kini Anda bisa mengunggah tangkapan layar (screenshot/gambar)
+                CV Anda untuk diulas secara visual oleh AI!</strong
+              >
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label
+                  class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2"
+                  >Pilih Peran Target Anda</label
+                >
+                <select
+                  id="ai-eval-role"
+                  class="w-full p-3 rounded-lg border border-stone-300 bg-stone-50 text-stone-800 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                >
+                  <option value="Game Programmer">
+                    Game Programmer (Unity / Unreal)
+                  </option>
+                  <option value="2D/3D Artist">2D/3D Artist & Animator</option>
+                  <option value="Game Designer">
+                    Game Designer & Balancing
+                  </option>
+                  <option value="Game Producer">
+                    Game Producer & Project Manager
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2"
+                  >Daftar Keahlian / Tool Saat Ini</label
+                >
+                <input
+                  id="ai-eval-skills"
+                  type="text"
+                  placeholder="Contoh: Unity, C#, Blender, Photoshop, Git"
+                  class="w-full p-3 rounded-lg border border-stone-300 bg-stone-50 text-stone-800 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Multimodal CV Upload Field -->
+            <div class="mb-6">
+              <label
+                class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2"
+                >Unggah Gambar CV / Bukti Portofolio (Opsional)</label
+              >
+              <div
+                class="flex flex-col items-center justify-center border-2 border-dashed border-stone-300 rounded-xl p-6 bg-stone-50 hover:bg-stone-100 transition-all relative"
+              >
+                <input
+                  type="file"
+                  id="ai-eval-cv-file"
+                  accept="image/*"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div
+                  id="upload-placeholder"
+                  class="text-center flex flex-col items-center"
+                >
+                  <span class="text-4xl mb-2">📂</span>
+                  <span class="text-sm font-semibold text-stone-700"
+                    >Klik atau seret gambar CV Anda di sini</span
+                  >
+                  <span class="text-xs text-stone-400 mt-1"
+                    >Menerima format gambar PNG, JPG, JPEG</span
+                  >
+                </div>
+                <!-- Image Preview Area -->
+                <div
+                  id="upload-preview-container"
+                  class="hidden w-full flex flex-col items-center gap-3"
+                >
+                  <img
+                    id="cv-image-preview"
+                    src="#"
+                    alt="Preview CV"
+                    class="max-h-48 rounded-lg shadow-md border border-stone-200"
+                  />
+                  <div class="flex items-center gap-2">
+                    <span
+                      id="cv-file-name"
+                      class="text-xs text-stone-500 font-semibold"
+                      >nama_file.png</span
+                    >
+                    <button
+                      type="button"
+                      id="btn-remove-cv"
+                      class="text-xs text-red-600 hover:text-red-800 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label
+                class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2"
+                >Deskripsi Singkat Pengalaman atau Portofolio Anda</label
+              >
+              <textarea
+                id="ai-eval-desc"
+                rows="4"
+                placeholder="Ceritakan proyek game apa saja yang pernah Anda buat (walau skala kecil/tugas akhir), berapa lama Anda belajar, dan tantangan yang Anda hadapi..."
+                class="w-full p-3 rounded-lg border border-stone-300 bg-stone-50 text-stone-800 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              ></textarea>
+            </div>
+
+            <button
+              id="btn-run-eval"
+              class="w-full md:w-auto px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+            >
+              <span>✨</span> Analisis Portofolio & CV Saya
+            </button>
+
+            <!-- Evaluation Result Output -->
+            <div
+              id="ai-eval-result-container"
+              class="mt-8 hidden border-t border-stone-200 pt-8 animate-fade-in"
+            >
+              <h4
+                class="font-bold text-stone-800 mb-3 flex items-center gap-2 text-lg"
+              >
+                <span class="text-teal-600">📊</span> Hasil Analisis AI Karir
+                GameDev
+              </h4>
+              <div
+                id="ai-eval-result"
+                class="bg-stone-50 p-6 rounded-xl border border-stone-200 text-stone-700 prose prose-stone max-w-none space-y-4 text-sm leading-relaxed"
+              >
+                <!-- Gemini output injected here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2 Content: Interview Simulator -->
+          <div id="ai-tab-interview" class="p-6 md:p-8 hidden">
+            <p class="text-sm text-stone-500 mb-6">
+              Uji kemampuan taktis dan komunikatif Anda. Pilih peran, AI akan
+              memberikan Anda satu pertanyaan wawancara studi kasus realistis
+              dari studio game Indonesia.
+            </p>
+
+            <div class="mb-6 flex flex-col md:flex-row gap-4 items-end">
+              <div class="flex-1">
+                <label
+                  class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2"
+                  >Pilih Peran Wawancara</label
+                >
+                <select
+                  id="ai-interview-role"
+                  class="w-full p-3 rounded-lg border border-stone-300 bg-stone-50 text-stone-800 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                >
+                  <option value="Game Programmer">
+                    Game Programmer (Teknis & Algoritma)
+                  </option>
+                  <option value="2D/3D Artist">
+                    2D/3D Artist (Pipeline & Estetika)
+                  </option>
+                  <option value="Game Designer">
+                    Game Designer (Mekanik & Monetisasi)
+                  </option>
+                  <option value="Game Producer">
+                    Game Producer (Metodologi Agile & Tim)
+                  </option>
+                </select>
+              </div>
+              <button
+                id="btn-start-interview"
+                class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+              >
+                <span>🚀</span> Mulai Simulasi
+              </button>
+            </div>
+
+            <!-- Interview Active Workspace -->
+            <div
+              id="ai-interview-workspace"
+              class="hidden border-t border-stone-200 pt-6 animate-fade-in"
+            >
+              <!-- Question Area -->
+              <div
+                class="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl mb-6"
+              >
+                <span
+                  class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1"
+                  >Pertanyaan Pewawancara (Hiring Manager AI):</span
+                >
+                <p
+                  id="ai-interview-question"
+                  class="text-stone-800 font-semibold text-base"
+                >
+                  Sedang merancang pertanyaan...
+                </p>
+              </div>
+
+              <!-- User Answer Input -->
+              <div class="mb-6">
+                <label
+                  class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2"
+                  >Jawaban Anda</label
+                >
+                <textarea
+                  id="ai-interview-answer"
+                  rows="5"
+                  placeholder="Ketik jawaban Anda secara terstruktur dan profesional di sini..."
+                  class="w-full p-3 rounded-lg border border-stone-300 bg-white text-stone-800 focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                ></textarea>
+              </div>
+
+              <div class="flex gap-3">
+                <button
+                  id="btn-submit-answer"
+                  class="px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+                >
+                  <span>✔</span> Kirim & Evaluasi Jawaban
+                </button>
+                <button
+                  id="btn-reset-interview"
+                  class="px-5 py-3 bg-stone-200 hover:bg-stone-300 text-stone-700 font-bold rounded-xl transition-all"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+
+            <!-- Interview Assessment Result -->
+            <div
+              id="ai-interview-result-container"
+              class="mt-8 hidden border-t border-stone-200 pt-8 animate-fade-in"
+            >
+              <div
+                class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4"
+              >
+                <h4
+                  class="font-bold text-stone-800 flex items-center gap-2 text-lg"
+                >
+                  <span class="text-amber-500">🏆</span> Penilaian & Masukan AI
+                </h4>
+                <div
+                  class="mt-2 md:mt-0 bg-teal-100 text-teal-800 px-4 py-2 rounded-xl border border-teal-200 font-extrabold text-lg flex items-center gap-1"
+                >
+                  Skor: <span id="ai-interview-score">90</span>/100
+                </div>
+              </div>
+              <div
+                id="ai-interview-result"
+                class="bg-stone-50 p-6 rounded-xl border border-stone-200 text-stone-700 prose prose-stone max-w-none space-y-4 text-sm leading-relaxed"
+              >
+                <!-- Evaluation report injected here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Akar Masalah & Solusi -->
+    <section id="solusi" class="py-16 px-4 bg-stone-800 text-stone-50">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-10 text-center">
+          <h2 class="text-3xl font-bold text-white mb-4">
+            Sintesis: Menjembatani Kesenjangan
+          </h2>
+          <p class="text-stone-300">
+            Menyelaraskan kurikulum pendidikan dengan standar industri dan
+            membina ekosistem talenta yang berkelanjutan.
+          </p>
+        </div>
+
+        <!-- Custom Tabs (Vanilla JS) -->
+        <div
+          class="flex flex-wrap justify-center border-b border-stone-600 mb-8"
+        >
+          <button
+            class="tab-btn px-6 py-3 font-semibold text-teal-400 border-b-2 border-teal-400 focus:outline-none"
+            data-target="tab-masalah"
+          >
+            Akar Masalah
+          </button>
+          <button
+            class="tab-btn px-6 py-3 font-semibold text-stone-400 border-b-2 border-transparent hover:text-stone-200 focus:outline-none transition-colors"
+            data-target="tab-solusi"
+          >
+            Rekomendasi Solusi
+          </button>
+        </div>
+
+        <div id="tab-masalah" class="tab-content block animate-fade-in">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-stone-700/50 p-6 rounded-xl border border-stone-600">
+              <div class="text-2xl mb-3">&#128218;</div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                Kurikulum vs Kebutuhan
+              </h4>
+              <p class="text-sm text-stone-300">
+                Banyak program studi berfokus pada teori dasar atau tool yang
+                sudah tertinggal. Kurangnya studi kasus industri nyata
+                (real-project based learning) membuat lulusan kaget dengan
+                standar alur kerja studio profesional.
+              </p>
+            </div>
+            <div class="bg-stone-700/50 p-6 rounded-xl border border-stone-600">
+              <div class="text-2xl mb-3">&#128101;</div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                Minimnya Mentorship Senior
+              </h4>
+              <p class="text-sm text-stone-300">
+                Pertumbuhan studio yang cepat tidak diimbangi dengan jumlah
+                talenta level senior. Akibatnya, junior yang baru masuk kurang
+                mendapatkan bimbingan (mentorship) teknis yang memadai untuk
+                berkembang cepat.
+              </p>
+            </div>
+            <div class="bg-stone-700/50 p-6 rounded-xl border border-stone-600">
+              <div class="text-2xl mb-3">&#129309;</div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                Kelemahan Soft Skills
+              </h4>
+              <p class="text-sm text-stone-300">
+                Pengembangan game adalah kolaborasi interdisipliner. Banyak
+                talenta gagal saat wawancara atau masa percobaan bukan karena
+                kurang teknis, melainkan ketidakmampuan berkomunikasi, menerima
+                kritik, atau bekerja dalam tim (versi control, pipeline).
+              </p>
+            </div>
+            <div class="bg-stone-700/50 p-6 rounded-xl border border-stone-600">
+              <div class="text-2xl mb-3">&#128200;</div>
+              <h4 class="text-lg font-bold text-white mb-2">
+                Ekspetasi Portofolio
+              </h4>
+              <p class="text-sm text-stone-300">
+                Lulusan sering menyertakan "tugas akhir kampus" yang bersifat
+                general. Studio mencari portofolio spesifik yang menunjukkan
+                penguasaan mendalam pada satu area (misal: portofolio khusus UI
+                Programming, bukan sekadar "pernah bikin game platformer").
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-solusi" class="tab-content hidden animate-fade-in">
+          <div class="space-y-4">
+            <div
+              class="bg-teal-900/30 p-5 rounded-xl border border-teal-800 flex items-start"
+            >
+              <div class="text-teal-400 text-xl mr-4 font-bold">1</div>
+              <div>
+                <h4 class="text-md font-bold text-white mb-1">
+                  Micro-Credential & Bootcamp Spesifik
+                </h4>
+                <p class="text-sm text-stone-300">
+                  Menggeser fokus dari gelar generalis ke sertifikasi spesifik
+                  berdurasi pendek yang diajar langsung oleh praktisi industri
+                  (misal: "Bootcamp Optimasi Unreal Engine" atau "Technical Art
+                  Pipeline").
+                </p>
+              </div>
+            </div>
+            <div
+              class="bg-teal-900/30 p-5 rounded-xl border border-teal-800 flex items-start"
+            >
+              <div class="text-teal-400 text-xl mr-4 font-bold">2</div>
+              <div>
+                <h4 class="text-md font-bold text-white mb-1">
+                  Magang Terstruktur (Apprenticeship)
+                </h4>
+                <p class="text-sm text-stone-300">
+                  Pemerintah dan asosiasi memfasilitasi subsidi gaji untuk
+                  program magang panjang (6-12 bulan) di studio lokal, mengubah
+                  status lulusan dari "fresh graduate" menjadi "industry-ready".
+                </p>
+              </div>
+            </div>
+            <div
+              class="bg-teal-900/30 p-5 rounded-xl border border-teal-800 flex items-start"
+            >
+              <div class="text-teal-400 text-xl mr-4 font-bold">3</div>
+              <div>
+                <h4 class="text-md font-bold text-white mb-1">
+                  Integrasi Soft Skill & Agile di Kampus
+                </h4>
+                <p class="text-sm text-stone-300">
+                  Memaksa pengerjaan tugas menggunakan standar industri:
+                  penggunaan Git, metodologi Agile/Scrum, review kode, dan
+                  dokumentasi GDD (Game Design Document) yang ketat.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="bg-stone-900 text-stone-400 py-8 text-center text-sm border-t border-stone-800"
+    >
+      <div class="max-w-6xl mx-auto px-4">
+        <p>&copy; 2024 Laporan Sintesis Data - Ekosistem Game Dev Indonesia.</p>
+        <p class="mt-2 text-stone-500 text-xs">
+          Aplikasi SPA interaktif ini dibuat sebagai purwarupa analisis
+          informasi.
+        </p>
+      </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+      // --- Data Definitions ---
+
+      // Config variables for chart styling
+      const colors = {
+        teal: "#0d9488",
+        tealLight: "#5eead4",
+        amber: "#d97706",
+        amberLight: "#fcd34d",
+        stone: "#a8a29e",
+        stoneDark: "#44403c",
+        stoneLight: "#e7e5e4",
+      };
+
+      // Data for Section 3 (Interactive Roles)
+      const roleData = {
+        programmer: {
+          title: "Game Programmer",
+          desc: "Tulang punggung pengembangan game. Mengubah desain dan aset menjadi produk interaktif. Di Indonesia, penguasaan Unity (C#) dan Unreal (C++) mendominasi permintaan.",
+          criticalPoints: [
+            "Pemahaman arsitektur kode (bukan sekadar tutorial-copying).",
+            "Optimasi performa memori pada platform mobile.",
+            "Kemampuan beradaptasi dengan legacy code.",
+          ],
+          difficulty: 90,
+          difficultyLabel: "Sangat Tinggi",
+          chartData: [60, 20, 20], // Hard, Soft, Tooling
+          chartLabels: [
+            "Core Programming (C#/C++)",
+            "Problem Solving & Logic",
+            "Engine Tooling (Unity/UE)",
+          ],
+        },
+        artist: {
+          title: "2D / 3D Artist",
+          desc: "Kreator visual yang menghidupkan dunia game. Permintaan spesifik mengarah pada Technical Artist dan 3D Animator yang paham pipeline integrasi ke game engine.",
+          criticalPoints: [
+            "Konsistensi gaya seni (art style) dalam produksi massal.",
+            "Pemahaman topologi 3D yang optimal untuk real-time render.",
+            "Mampu melakukan integrasi aset langsung ke dalam Engine.",
+          ],
+          difficulty: 75,
+          difficultyLabel: "Tinggi",
+          chartData: [50, 35, 15],
+          chartLabels: [
+            "Art Fundamentals (Warna, Anatomi)",
+            "Software Mastery (Blender/Maya)",
+            "Engine Integration",
+          ],
+        },
+        designer: {
+          title: "Game Designer",
+          desc: "Arsitek pengalaman pemain. Bukan sekadar pencari ide, tapi perancang sistem matematis, ekonomi, dan retensi pemain yang terukur.",
+          criticalPoints: [
+            "Kemampuan menyeimbangkan ekonomi game (Game Balancing) dengan spreadsheet.",
+            "Menulis GDD (Game Design Document) yang jelas untuk programmer.",
+            "Pemahaman psikologi pemain dan metrik monetisasi.",
+          ],
+          difficulty: 80,
+          difficultyLabel: "Tinggi",
+          chartData: [45, 40, 15],
+          chartLabels: [
+            "System & Level Design",
+            "Komunikasi & Dokumentasi",
+            "Data Analytics (Basic)",
+          ],
+        },
+        producer: {
+          title: "Game Producer",
+          desc: "Pengelola proyek yang memastikan game rilis tepat waktu, sesuai anggaran, dan memenuhi kualitas. Jembatan antara departemen kreatif, teknis, dan bisnis.",
+          criticalPoints: [
+            "Pengalaman merilis game secara komersial (full cycle).",
+            "Manajemen konflik dan negosiasi antar departemen.",
+            "Penguasaan metodologi Agile/Scrum secara praktis.",
+          ],
+          difficulty: 95,
+          difficultyLabel: "Kritis",
+          chartData: [20, 60, 20],
+          chartLabels: [
+            "Technical Understanding",
+            "Project Management & Leadership",
+            "Business & Market Logic",
+          ],
+        },
+      };
+
+      // --- Chart Configurations ---
+
+      // Global Chart defaults
+      Chart.defaults.font.family = "'Inter', 'system-ui', 'sans-serif'";
+      Chart.defaults.color = colors.stoneDark;
+
+      // 1. Growth Line Chart
+      const ctxGrowth = document.getElementById("growthChart").getContext("2d");
+      const growthChart = new Chart(ctxGrowth, {
+        type: "line",
+        data: {
+          labels: ["2019", "2020", "2021", "2022", "2023"],
+          datasets: [
+            {
+              label: "Nilai Pasar (Indeks Pertumbuhan)",
+              data: [100, 130, 165, 210, 250],
+              borderColor: colors.teal,
+              backgroundColor: colors.tealLight + "40", // with opacity
+              borderWidth: 3,
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: colors.teal,
+              pointRadius: 5,
+              pointHoverRadius: 8,
+            },
+            {
+              label: "Kapasitas Produksi Studio Lokal",
+              data: [100, 110, 125, 140, 160],
+              borderColor: colors.amber,
+              borderWidth: 3,
+              borderDash: [5, 5],
+              tension: 0.4,
+              fill: false,
+              pointBackgroundColor: colors.amber,
+              pointRadius: 5,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false, // CRITICAL for filling the custom container height
+          plugins: {
+            legend: { position: "top" },
+            tooltip: {
+              mode: "index",
+              intersect: false,
+              callbacks: {
+                label: function (context) {
+                  let label = context.dataset.label || "";
+                  if (label) {
+                    label += ": ";
+                  }
+                  if (context.parsed.y !== null) {
+                    label += context.parsed.y + " Poin";
+                  }
+                  return label;
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: "Indeks Base 100 (Tahun 2019)" },
+              grid: { color: colors.stoneLight },
+            },
+            x: { grid: { display: false } },
+          },
+        },
+      });
+
+      // 2. Gap Bar Chart
+      const ctxGap = document.getElementById("gapChart").getContext("2d");
+      const gapChart = new Chart(ctxGap, {
+        type: "bar",
+        data: {
+          labels: [
+            "Programmer",
+            "2D Artist",
+            "3D Artist",
+            "Game Designer",
+            "Producer/PM",
+          ],
+          datasets: [
+            {
+              label: "Permintaan Studio",
+              data: [850, 600, 450, 300, 150],
+              backgroundColor: colors.stoneDark,
+              borderRadius: 4,
+            },
+            {
+              label: "Ketersediaan Lulusan Siap Kerja",
+              data: [250, 400, 150, 80, 30],
+              backgroundColor: colors.amber,
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom" },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return (
+                    context.dataset.label +
+                    ": " +
+                    context.parsed.y +
+                    " orang/tahun"
+                  );
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: "Estimasi Jumlah Orang per Tahun" },
+              grid: { color: colors.stoneLight },
+            },
+            x: { grid: { display: false } },
+          },
+        },
+      });
+
+      // 3. Skills Doughnut Chart (Dynamic)
+      const ctxSkills = document.getElementById("skillsChart").getContext("2d");
+      let skillsChart = new Chart(ctxSkills, {
+        type: "doughnut",
+        data: {
+          labels: roleData["programmer"].chartLabels,
+          datasets: [
+            {
+              data: roleData["programmer"].chartData,
+              backgroundColor: [colors.teal, colors.amber, colors.stone],
+              borderWidth: 0,
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "70%",
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                boxWidth: 12,
+                padding: 10,
+                font: { size: 11 },
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  let label = context.label || "";
+                  if (label) {
+                    label += ": ";
+                  }
+                  label += context.parsed + "%";
+                  return label;
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // --- Interaction Logic ---
+
+      // Role Selection Logic (Section 3)
+      const roleButtons = document.querySelectorAll(".interactive-btn");
+
+      roleButtons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          // Remove active class from all
+          roleButtons.forEach((b) => {
+            b.classList.remove(
+              "active",
+              "bg-teal-600",
+              "text-white",
+              "border-teal-600",
+            );
+            b.classList.add(
+              "bg-stone-50",
+              "text-stone-700",
+              "border-stone-200",
+            );
+          });
+
+          // Add active class to clicked
+          this.classList.add(
+            "active",
+            "bg-teal-600",
+            "text-white",
+            "border-teal-600",
+          );
+          this.classList.remove(
+            "bg-stone-50",
+            "text-stone-700",
+            "border-stone-200",
+          );
+
+          const selectedRole = this.getAttribute("data-role");
+          updateRoleDetails(selectedRole);
+        });
+      });
+
+      function updateRoleDetails(roleKey) {
+        const data = roleData[roleKey];
+        if (!data) return;
+
+        // Update Text
+        document.getElementById("detailRoleName").textContent = data.title;
+        document.getElementById("detailRoleDesc").textContent = data.desc;
+
+        // Update List
+        const listEl = document.getElementById("detailCriticalPoints");
+        listEl.innerHTML = "";
+        data.criticalPoints.forEach((point) => {
+          const li = document.createElement("li");
+          li.className = "flex items-start";
+          li.innerHTML = `<span class="text-amber-500 mr-2 font-bold">&#9888;</span><span class="text-sm text-stone-700">${point}</span>`;
+          listEl.appendChild(li);
+        });
+
+        // Update Bar
+        document.getElementById("difficultyBar").style.width =
+          data.difficulty + "%";
+        document.getElementById("difficultyText").textContent =
+          data.difficultyLabel;
+
+        // Update Chart smoothly
+        skillsChart.data.labels = data.chartLabels;
+        skillsChart.data.datasets[0].data = data.chartData;
+        skillsChart.update();
+      }
+
+      // Tabs Logic (Section 4)
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Reset buttons
+          tabButtons.forEach((b) => {
+            b.classList.remove("text-teal-400", "border-teal-400");
+            b.classList.add("text-stone-400", "border-transparent");
+          });
+          // Activate clicked button
+          btn.classList.remove("text-stone-400", "border-transparent");
+          btn.classList.add("text-teal-400", "border-teal-400");
+
+          // Hide all contents
+          tabContents.forEach((c) => c.classList.add("hidden"));
+
+          // Show target content
+          const targetId = btn.getAttribute("data-target");
+          document.getElementById(targetId).classList.remove("hidden");
+        });
+      });
+
+      // Add simple CSS animation for tabs
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(5px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.3s ease-out forwards;
+            }
+        `;
+      document.head.appendChild(style);
+
+      // --- Gemini API & AI Hub Logic ---
+
+      // Custom Custom Toast function instead of window.alert
+      function showToast(message, icon = "ℹ️") {
+        const toast = document.getElementById("custom-toast");
+        const toastIcon = document.getElementById("toast-icon");
+        const toastMsg = document.getElementById("toast-message");
+
+        toastIcon.textContent = icon;
+        toastMsg.textContent = message;
+
+        toast.classList.remove("hidden");
+        toast.classList.add("animate-fade-in");
+
+        setTimeout(() => {
+          toast.classList.add("hidden");
+        }, 4000);
+      }
+
+      // Helper function for formatted rendering of markdown response without complex libraries
+      function formatMarkdown(text) {
+        if (!text) return "";
+        return text
+          .replace(
+            /^### (.*$)/gim,
+            '<h4 class="text-md font-bold text-stone-800 mt-4 mb-2">$1</h4>',
+          )
+          .replace(
+            /^## (.*$)/gim,
+            '<h3 class="text-lg font-bold text-stone-900 mt-5 mb-2">$1</h3>',
+          )
+          .replace(
+            /^# (.*$)/gim,
+            '<h2 class="text-xl font-extrabold text-teal-700 mt-6 mb-3">$1</h2>',
+          )
+          .replace(
+            /\*\*(.*?)\*\*/g,
+            '<strong class="text-stone-900 font-bold">$1</strong>',
+          )
+          .replace(/\*(.*?)\*/g, '<em class="text-stone-800 italic">$1</em>')
+          .replace(
+            /^\s*\-\s*(.*$)/gim,
+            '<li class="list-disc ml-5 mb-1 text-stone-700">$1</li>',
+          )
+          .replace(/\n\n/g, '<p class="mb-4"></p>')
+          .replace(/\n/g, "<br>");
+      }
+
+      // Gemini API robust fetching function using exponential backoff (supports Text & Images)
+      async function fetchGeminiAI(
+        prompt,
+        systemInstruction = "",
+        base64ImageData = "",
+        mimeType = "",
+      ) {
+        const apiKey = ""; // Canvas runtime auto-injects key here
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+        // Build contents payload
+        let parts = [{ text: prompt }];
+
+        // Handle multimodal image data if available
+        if (base64ImageData && mimeType) {
+          parts.push({
+            inlineData: {
+              mimeType: mimeType,
+              data: base64ImageData,
+            },
+          });
+        }
+
+        const payload = {
+          contents: [{ role: "user", parts: parts }],
+          systemInstruction: systemInstruction
+            ? { parts: [{ text: systemInstruction }] }
+            : undefined,
+        };
+
+        let delay = 1000;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          try {
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              return (
+                data.candidates?.[0]?.content?.parts?.[0]?.text ||
+                "Gagal memformulasikan respon."
+              );
+            }
+
+            if (response.status === 429) {
+              await new Promise((resolve) => setTimeout(resolve, delay));
+              delay *= 2;
+              continue;
+            }
+            throw new Error(`Koneksi API Error: ${response.status}`);
+          } catch (error) {
+            if (attempt === 2) throw error;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            delay *= 2;
+          }
+        }
+        throw new Error("Gagal terhubung dengan server AI.");
+      }
+
+      // Global variables for uploaded file
+      let uploadedImageBase64 = "";
+      let uploadedImageMimeType = "";
+
+      // UI Tabs Handlers for AI Hub
+      const tabBtnEval = document.getElementById("ai-tab-btn-evaluator");
+      const tabBtnIntv = document.getElementById("ai-tab-btn-interview");
+      const tabContentEval = document.getElementById("ai-tab-evaluator");
+      const tabContentIntv = document.getElementById("ai-tab-interview");
+
+      tabBtnEval.addEventListener("click", () => {
+        tabBtnEval.className =
+          "flex-1 py-4 px-6 text-center font-bold text-sm text-teal-600 border-b-2 border-teal-600 focus:outline-none transition-all flex justify-center items-center gap-2";
+        tabBtnIntv.className =
+          "flex-1 py-4 px-6 text-center font-bold text-sm text-stone-500 hover:text-stone-700 focus:outline-none transition-all flex justify-center items-center gap-2";
+        tabContentEval.classList.remove("hidden");
+        tabContentIntv.classList.add("hidden");
+      });
+
+      tabBtnIntv.addEventListener("click", () => {
+        tabBtnIntv.className =
+          "flex-1 py-4 px-6 text-center font-bold text-sm text-teal-600 border-b-2 border-teal-600 focus:outline-none transition-all flex justify-center items-center gap-2";
+        tabBtnEval.className =
+          "flex-1 py-4 px-6 text-center font-bold text-sm text-stone-500 hover:text-stone-700 focus:outline-none transition-all flex justify-center items-center gap-2";
+        tabContentIntv.classList.remove("hidden");
+        tabContentEval.classList.add("hidden");
+      });
+
+      // Image upload preview & Base64 Converter
+      const cvFileInput = document.getElementById("ai-eval-cv-file");
+      const uploadPlaceholder = document.getElementById("upload-placeholder");
+      const uploadPreviewContainer = document.getElementById(
+        "upload-preview-container",
+      );
+      const cvImagePreview = document.getElementById("cv-image-preview");
+      const cvFileName = document.getElementById("cv-file-name");
+      const btnRemoveCv = document.getElementById("btn-remove-cv");
+
+      cvFileInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          if (!file.type.startsWith("image/")) {
+            showToast(
+              "Silakan unggah file gambar (PNG, JPG, JPEG) saja!",
+              "⚠️",
+            );
+            cvFileInput.value = "";
+            return;
+          }
+
+          uploadedImageMimeType = file.type;
+          cvFileName.textContent = file.name;
+
+          const reader = new FileReader();
+          reader.onload = function (evt) {
+            cvImagePreview.src = evt.target.result;
+            // Extract exact base64 data stream (removing the data:*/*;base64, prefix)
+            uploadedImageBase64 = evt.target.result.split(",")[1];
+
+            // Show preview container, hide placeholder
+            uploadPlaceholder.classList.add("hidden");
+            uploadPreviewContainer.classList.remove("hidden");
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      btnRemoveCv.addEventListener("click", function () {
+        cvFileInput.value = "";
+        uploadedImageBase64 = "";
+        uploadedImageMimeType = "";
+        uploadPlaceholder.classList.remove("hidden");
+        uploadPreviewContainer.classList.add("hidden");
+        cvImagePreview.src = "#";
+      });
+
+      // 1. Portfolio & CV Evaluator Core Flow
+      const btnRunEval = document.getElementById("btn-run-eval");
+      const evalResultContainer = document.getElementById(
+        "ai-eval-result-container",
+      );
+      const evalResultArea = document.getElementById("ai-eval-result");
+
+      btnRunEval.addEventListener("click", async () => {
+        const role = document.getElementById("ai-eval-role").value;
+        const skills = document.getElementById("ai-eval-skills").value.trim();
+        const desc = document.getElementById("ai-eval-desc").value.trim();
+
+        if (!skills || !desc) {
+          showToast(
+            "Harap isi daftar keahlian dan deskripsi singkat proyek/portfolio terlebih dahulu!",
+            "⚠️",
+          );
+          return;
+        }
+
+        btnRunEval.disabled = true;
+        btnRunEval.innerHTML = `<span>⏳</span> Menganalisis dengan AI...`;
+        evalResultContainer.classList.remove("hidden");
+        evalResultArea.innerHTML = `
+                <div class="flex items-center gap-3 py-6 justify-center text-teal-600 font-semibold">
+                    <svg class="animate-spin h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Gemini AI sedang meninjau dokumen/gambar CV dan keahlian Anda...</span>
+                </div>`;
+
+        const systemInstruction = `Anda adalah Konsultan Karir Senior di Industri Game Developer Indonesia. 
+Analisis keahlian pengguna serta gambar CV yang diunggah jika ada. Petakan kesenjangan keterampilannya (skill gap) dari kacamata kebutuhan studio lokal (seperti Agate, Toge Productions, Digital Happiness, dll.), dan berikan peta jalan (roadmap) praktis.
+Jika pengguna mengunggah gambar CV, berikan ulasan tentang efektivitas struktur penulisan dan keterbacaan CV-nya khusus untuk industri game.
+Jawab dengan bahasa Indonesia yang inspiratif, ramah, profesional, dan gunakan poin-poin terstruktur.`;
+
+        let prompt = `Saya ingin berkarir sebagai: ${role}
+Keahlian & Tool saya saat ini: ${skills}
+Deskripsi portofolio / latar belakang saya: ${desc}
+
+Berikan output terstruktur berupa:
+1. **Analisis Visual & Keterbacaan CV** (Jika ada gambar CV yang saya sertakan, ulaslah format, visual, dan kelengkapannya. Jika tidak ada, beri saran format CV game developer yang ideal).
+2. **Status Kesiapan Industri** (Analisis kesiapan kerja saat ini: Junior / Intermediate / Senior)
+3. **Kesenjangan Keterampilan Utama** (Apa saja kelemahan teknis maupun soft skills yang perlu diperbaiki khusus peran ini)
+4. **Peta Jalan Belajar Praktis** (Daftar hal atau teknologi spesifik industri game Indonesia yang harus dipelajari selanjutnya)
+5. **Rekomendasi Jenis Studio Lokal** (Rekomendasi jenis game/studio di Indonesia yang relevan dengan profil ini)`;
+
+        try {
+          const responseText = await fetchGeminiAI(
+            prompt,
+            systemInstruction,
+            uploadedImageBase64,
+            uploadedImageMimeType,
+          );
+          evalResultArea.innerHTML = formatMarkdown(responseText);
+        } catch (err) {
+          evalResultArea.innerHTML = `<div class="text-red-600 font-semibold p-4 bg-red-50 rounded-lg">Gagal menghubungkan analisis AI: ${err.message}. Silakan coba lagi.</div>`;
+        } finally {
+          btnRunEval.disabled = false;
+          btnRunEval.innerHTML = `<span>✨</span> Analisis Portofolio & CV Saya`;
+        }
+      });
+
+      // 2. Interview Simulator Core Flow
+      const btnStartIntv = document.getElementById("btn-start-interview");
+      const intvWorkspace = document.getElementById("ai-interview-workspace");
+      const intvQuestion = document.getElementById("ai-interview-question");
+      const intvAnswerInput = document.getElementById("ai-interview-answer");
+      const btnSubmitAnswer = document.getElementById("btn-submit-answer");
+      const btnResetIntv = document.getElementById("btn-reset-interview");
+      const intvResultContainer = document.getElementById(
+        "ai-interview-result-container",
+      );
+      const intvResultArea = document.getElementById("ai-interview-result");
+      const intvScoreBadge = document.getElementById("ai-interview-score");
+
+      let currentActiveQuestion = "";
+
+      btnStartIntv.addEventListener("click", async () => {
+        const role = document.getElementById("ai-interview-role").value;
+
+        btnStartIntv.disabled = true;
+        btnStartIntv.innerHTML = `<span>⏳</span> Membuka Sesi...`;
+        intvWorkspace.classList.remove("hidden");
+        intvResultContainer.classList.add("hidden");
+        intvAnswerInput.value = "";
+        intvQuestion.innerHTML = `<span class="animate-pulse">Mencari studi kasus wawancara realistis untuk peran ${role}...</span>`;
+
+        const systemInstruction = `Anda adalah Lead Developer dan Hiring Manager di sebuah Studio Game di Indonesia (misal: Agate Studio, Toge Productions, atau Digital Happiness). 
+Tugas Anda adalah memberikan SATU studi kasus atau tantangan teknis/desain spesifik yang biasanya ditanyakan dalam wawancara kerja tingkat menengah.
+Gunakan nuansa industri game lokal di Indonesia (seperti optimalisasi untuk HP spesifikasi rendah di pasar Indonesia, atau manajemen game beranggaran terbatas).`;
+
+        const prompt = `Berikan saya tepat SATU pertanyaan wawancara berbentuk studi kasus terperinci untuk peran: ${role}. 
+Pertanyaan harus menantang kemampuan berpikir kritis, teknis, atau kolaboratif calon karyawan tersebut. Jawab dalam bahasa Indonesia yang ringkas dan profesional.`;
+
+        try {
+          const responseText = await fetchGeminiAI(prompt, systemInstruction);
+          currentActiveQuestion = responseText;
+          intvQuestion.innerHTML = responseText;
+        } catch (err) {
+          intvQuestion.innerHTML = `<span class="text-red-500">Error: Gagal memuat tantangan wawancara. Silakan coba lagi. (${err.message})</span>`;
+        } finally {
+          btnStartIntv.disabled = false;
+          btnStartIntv.innerHTML = `<span>🚀</span> Ganti Pertanyaan`;
+        }
+      });
+
+      btnSubmitAnswer.addEventListener("click", async () => {
+        const answer = intvAnswerInput.value.trim();
+        const role = document.getElementById("ai-interview-role").value;
+
+        if (!answer) {
+          showToast(
+            "Silakan ketik jawaban Anda terlebih dahulu sebelum mengirim!",
+            "⚠️",
+          );
+          return;
+        }
+
+        btnSubmitAnswer.disabled = true;
+        btnSubmitAnswer.innerHTML = `<span>⏳</span> Menilai Jawaban...`;
+        intvResultContainer.classList.remove("hidden");
+        intvResultArea.innerHTML = `
+                <div class="flex items-center gap-3 py-4 justify-center text-amber-600 font-semibold">
+                    <svg class="animate-spin h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Lead Developer AI sedang menganalisis tingkat kebenaran & kesiapan jawaban Anda...</span>
+                </div>`;
+
+        const systemInstruction = `Anda adalah Pewawancara Ahli Game Developer Indonesia. 
+Anda harus mengoreksi jawaban kandidat secara jujur, objektif, namun tetap memberikan kritik konstruktif untuk pertumbuhan kandidat.
+Berikan nilai numerik antara 0 sampai 100 berdasarkan kualitas, struktur pemecahan masalah, dan keakuratan jawaban mereka.`;
+
+        const prompt = `Berikut adalah data wawancara:
+- **Peran**: ${role}
+- **Pertanyaan Wawancara**: ${currentActiveQuestion}
+- **Jawaban Kandidat**: ${answer}
+
+Harap berikan evaluasi dengan format yang rapi:
+1. **Skor**: Berikan nilai angka di baris pertama dengan format "NILAI: [angka]" agar mudah saya baca.
+2. **Kekuatan Jawaban**: Apa saja poin yang sudah baik dan benar secara teoretis/praktis.
+3. **Kelemahan & Misconception**: Apa yang kurang atau keliru dari perspektif standar industri game profesional.
+4. **Jawaban Ideal & Rekomendasi Solusi**: Berikan contoh jawaban atau langkah pemecahan yang paling tepat untuk studi kasus tersebut.`;
+
+        try {
+          const responseText = await fetchGeminiAI(prompt, systemInstruction);
+
+          // Extract score if returned inside response
+          let score = "75";
+          const scoreMatch =
+            responseText.match(/NILAI:\s*(\d+)/i) ||
+            responseText.match(/Skor:\s*(\d+)/i) ||
+            responseText.match(/(\d+)\s*\/\s*100/);
+          if (scoreMatch && scoreMatch[1]) {
+            score = scoreMatch[1];
+          }
+
+          intvScoreBadge.textContent = score;
+          intvResultArea.innerHTML = formatMarkdown(
+            responseText.replace(/NILAI:\s*\d+/i, ""),
+          );
+        } catch (err) {
+          intvResultArea.innerHTML = `<div class="text-red-600 font-semibold p-4 bg-red-50 rounded-lg">Gagal memproses penilaian AI: ${err.message}. Silakan coba lagi.</div>`;
+        } finally {
+          btnSubmitAnswer.disabled = false;
+          btnSubmitAnswer.innerHTML = `<span>✔</span> Kirim & Evaluasi Jawaban`;
+        }
+      });
+
+      btnResetIntv.addEventListener("click", () => {
+        intvWorkspace.classList.add("hidden");
+        intvResultContainer.classList.add("hidden");
+        intvAnswerInput.value = "";
+      });
+    </script>
+  </body>
+</html>

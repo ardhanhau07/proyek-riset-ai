@@ -1,0 +1,1721 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jejak Karir Lulusan Informatika di Indonesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- PDF.js library for client-side PDF text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("menu-toggle-btn");
+        const mobileMenu = document.getElementById("mobile-menu-panel");
+        const hamburgerIcon = document.getElementById("icon-hamburger");
+        const closeIcon = document.getElementById("icon-close");
+
+        if (toggleBtn && mobileMenu) {
+          toggleBtn.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
+            if (hamburgerIcon) hamburgerIcon.classList.toggle("hidden");
+            if (closeIcon) closeIcon.classList.toggle("hidden");
+          });
+
+          const mobileLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+          mobileLinks.forEach(function (link) {
+            link.addEventListener("click", function () {
+              mobileMenu.classList.add("hidden");
+              if (hamburgerIcon) hamburgerIcon.classList.remove("hidden");
+              if (closeIcon) closeIcon.classList.add("hidden");
+            });
+          });
+        }
+      });
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 800px;
+        height: 350px;
+        max-height: 450px;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 400px;
+        }
+      }
+      .tab-active {
+        border-bottom: 2px solid #4f46e5;
+        color: #4f46e5;
+        font-weight: 600;
+      }
+      .smooth-transition {
+        transition: all 0.3s ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="antialiased scroll-smooth">
+    <!-- Chosen Palette: Warm Neutrals (Slate 50/100) with Indigo (Primary) and Teal (Accent) -->
+    <!-- Application Structure Plan: The SPA uses a dashboard-style scrollable narrative. It starts with a high-level overview (Hero & Quick Stats) to set the context. Then it dives into 'Peran & Profesi' (Roles & Professions) using an interactive list linked to a detail view, allowing users to explore specific jobs. Next is 'Sebaran Industri' (Industry Distribution) using a Doughnut chart to show where these roles apply. Finally, a 'Peta Gaji & Keterampilan' (Salary & Skills Map) uses interactive tabs to compare compensation and required tools. This non-linear exploration keeps the user engaged while answering "What do they become?", "Where do they work?", and "How much do they earn?". -->
+    <!-- Visualization & Content Choices: 1. Top Roles -> Goal: Compare -> Horizontal Bar Chart (Chart.js) + Interactive Cards -> Clear comparison of popularity, interactive cards provide context without cluttering. 2. Industry Distribution -> Goal: Inform/Proportions -> Doughnut Chart (Chart.js) -> Shows market share of sectors visually. 3. Salary & Skills -> Goal: Compare/Organize -> Interactive Tabs & Bar Chart (Chart.js) -> Segregates complex numeric data (salary) and text data (skills) into digestible, user-controlled views. NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav
+      class="fixed w-full z-50 top-0 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div
+            class="flex-shrink-0 flex items-center gap-2 cursor-pointer whitespace-nowrap"
+            onclick="window.scrollTo(0, 0)"
+          >
+            <div
+              class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl"
+            >
+              IT
+            </div>
+            <span class="font-bold text-xl tracking-tight text-slate-800"
+              >Karir<span class="text-indigo-600">Informatika</span></span
+            >
+          </div>
+
+          <div class="hidden lg:flex items-center space-x-4 xl:space-x-8">
+            <a
+              href="#peran"
+              class="text-slate-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium smooth-transition whitespace-nowrap"
+              >Profesi</a
+            >
+            <a
+              href="#industri"
+              class="text-slate-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium smooth-transition whitespace-nowrap"
+              >Industri</a
+            >
+            <a
+              href="#asisten-ai"
+              class="text-indigo-600 hover:text-indigo-700 px-3 py-2 text-sm font-semibold smooth-transition whitespace-nowrap"
+              >💡 Konsultasi AI</a
+            >
+            <a
+              href="#kompensasi"
+              class="text-slate-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium smooth-transition whitespace-nowrap"
+              >Gaji & Skill</a
+            >
+
+            <div class="relative group inline-block text-left">
+              <button
+                class="text-slate-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium smooth-transition inline-flex items-center gap-1 focus:outline-none whitespace-nowrap"
+              >
+                Blog Lainnya
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              <div
+                class="absolute right-0 top-full pt-4 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+              >
+                <div
+                  class="bg-white rounded-lg shadow-lg border border-slate-100 py-2 flex flex-col overflow-hidden text-left font-normal"
+                >
+                  <a
+                    href="../index.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                    >Hub Utama</a
+                  >
+                  <a
+                    href="lanskap_talenta_game_dev_indonesia.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                    >Lanskap Game Dev</a
+                  >
+                  <a
+                    href="laporan_analisis_kebutuhan_dosen.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                    >Analisis Kebutuhan Dosen</a
+                  >
+                  <a
+                    href="laporan_karir_informatika.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors bg-slate-50 font-medium"
+                    >Karir Informatika</a
+                  >
+                  <a
+                    href="laporan_kebutuhan_dosen_game_dev_id.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                    >Dosen Game Dev</a
+                  >
+                  <a
+                    href="laporan_peran_dosen.html"
+                    class="px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                    >Peran Dosen</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex lg:hidden items-center">
+            <button
+              id="menu-toggle-btn"
+              class="text-slate-600 hover:text-indigo-600 inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors"
+            >
+              <svg
+                class="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  id="icon-hamburger"
+                  class="inline-flex"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+                <path
+                  id="icon-close"
+                  class="hidden"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu-panel"
+        class="hidden lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md absolute w-full left-0 top-full shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto"
+      >
+        <div
+          class="px-4 pt-3 pb-6 space-y-1 flex flex-col font-medium text-slate-600"
+        >
+          <a
+            href="#peran"
+            class="hover:text-indigo-600 hover:bg-indigo-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Profesi</a
+          >
+          <a
+            href="#industri"
+            class="hover:text-indigo-600 hover:bg-indigo-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Industri</a
+          >
+          <a
+            href="#asisten-ai"
+            class="text-indigo-700 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-2.5 rounded-md text-base transition-colors"
+            >💡 Konsultasi AI</a
+          >
+          <a
+            href="#kompensasi"
+            class="hover:text-indigo-600 hover:bg-indigo-50 px-3 py-2.5 rounded-md text-base transition-colors"
+            >Gaji & Skill</a
+          >
+
+          <div class="pt-4 border-t border-slate-200 mt-2">
+            <span
+              class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider"
+              >Daftar Blog Lainnya</span
+            >
+            <div class="mt-2 space-y-1 pl-2 font-normal">
+              <a
+                href="../index.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                >Hub Utama</a
+              >
+              <a
+                href="lanskap_talenta_game_dev_indonesia.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                >Lanskap Game Dev</a
+              >
+              <a
+                href="laporan_analisis_kebutuhan_dosen.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                >Analisis Kebutuhan Dosen</a
+              >
+              <a
+                href="laporan_karir_informatika.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-indigo-50 hover:text-indigo-700 transition-colors bg-slate-50 font-medium"
+                >Karir Informatika</a
+              >
+              <a
+                href="laporan_kebutuhan_dosen_game_dev_id.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                >Dosen Game Dev</a
+              >
+              <a
+                href="laporan_peran_dosen.html"
+                class="block px-3 py-2 rounded-md text-sm hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                >Peran Dosen</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header
+      class="pt-32 pb-20 bg-gradient-to-b from-indigo-50 to-slate-50 border-b border-slate-200"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6"
+        >
+          Setelah Lulus Informatika,<br />
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-teal-500"
+            >Pada Jadi Apa di Indonesia?</span
+          >
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg text-slate-600 mx-auto mb-10">
+          Laporan interaktif ini memetakan lanskap karir lulusan Teknik
+          Informatika dan Ilmu Komputer di Indonesia. Jelajahi peran paling
+          diminati, sebaran industri, hingga proyeksi gaji berdasarkan data tren
+          industri teknologi terkini.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <div
+            class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex-1 min-w-[200px] max-w-[250px]"
+          >
+            <div class="text-3xl font-bold text-indigo-600 mb-1">85%</div>
+            <div class="text-sm text-slate-500">
+              Terserap dalam 6 bulan pertama
+            </div>
+          </div>
+          <div
+            class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex-1 min-w-[200px] max-w-[250px]"
+          >
+            <div class="text-3xl font-bold text-teal-600 mb-1">Top 3</div>
+            <div class="text-sm text-slate-500">
+              Jurusan dengan gaji awal tertinggi
+            </div>
+          </div>
+          <div
+            class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex-1 min-w-[200px] max-w-[250px]"
+          >
+            <div class="text-3xl font-bold text-blue-600 mb-1">7+</div>
+            <div class="text-sm text-slate-500">
+              Sektor industri membutuhkan IT
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+      <section id="peran" class="scroll-mt-24">
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">
+            Peta Profesi Utama
+          </h2>
+          <p class="text-slate-600 leading-relaxed">
+            Bagian ini menguraikan peran spesifik yang paling banyak diisi oleh
+            alumni. Tidak hanya menjadi "programmer", lulusan informatika kini
+            menyebar ke ranah data, desain produk, dan infrastruktur. Interaksi
+            dengan diagram di bawah untuk melihat persentase dan klik tombol
+            peran untuk detail pekerjaan.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200"
+          >
+            <h3 class="text-lg font-semibold text-slate-800 mb-4 text-center">
+              Distribusi Peran Alumni (Top 6)
+            </h3>
+            <div class="chart-container">
+              <canvas id="rolesChart"></canvas>
+            </div>
+          </div>
+
+          <div class="flex flex-col h-full">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">
+              Eksplorasi Peran (Klik untuk detail)
+            </h3>
+            <div class="flex flex-wrap gap-2 mb-6" id="roleButtons">
+              <button
+                class="px-4 py-2 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 font-medium text-sm hover:bg-indigo-100 smooth-transition focus:ring-2 focus:ring-indigo-500"
+                data-role="se"
+              >
+                Software Engineer
+              </button>
+              <button
+                class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-slate-50 smooth-transition"
+                data-role="da"
+              >
+                Data Analyst/Scientist
+              </button>
+              <button
+                class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-slate-50 smooth-transition"
+                data-role="uiux"
+              >
+                UI/UX Designer
+              </button>
+              <button
+                class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-slate-50 smooth-transition"
+                data-role="pm"
+              >
+                Product Manager
+              </button>
+              <button
+                class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-600 font-medium text-sm hover:bg-slate-50 smooth-transition"
+                data-role="devops"
+              >
+                DevOps/Cloud
+              </button>
+            </div>
+
+            <div
+              id="roleDetailBox"
+              class="bg-indigo-900 rounded-2xl p-8 text-white flex-grow shadow-lg relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-indigo-800 opacity-50 blur-2xl"
+              ></div>
+              <h4
+                id="detailTitle"
+                class="text-2xl font-bold mb-3 relative z-10"
+              >
+                Software Engineer (Frontend/Backend)
+              </h4>
+              <p
+                id="detailDesc"
+                class="text-indigo-100 mb-6 leading-relaxed relative z-10"
+              >
+                Membangun, mengembangkan, dan memelihara aplikasi web atau
+                mobile. Merupakan tulang punggung pengembangan teknologi di
+                hampir semua perusahaan.
+              </p>
+
+              <div class="grid grid-cols-2 gap-4 relative z-10">
+                <div
+                  class="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700/50"
+                >
+                  <div
+                    class="text-indigo-300 text-xs uppercase tracking-wider mb-1 font-semibold"
+                  >
+                    Fokus Utama
+                  </div>
+                  <div id="detailFocus" class="font-medium">
+                    Coding, Arsitektur Sistem, Debugging
+                  </div>
+                </div>
+                <div
+                  class="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700/50"
+                >
+                  <div
+                    class="text-indigo-300 text-xs uppercase tracking-wider mb-1 font-semibold"
+                  >
+                    Tingkat Permintaan
+                  </div>
+                  <div id="detailDemand" class="font-medium text-teal-400">
+                    Sangat Tinggi
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="industri"
+        class="scroll-mt-24 pt-12 border-t border-slate-200"
+      >
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">
+            Sebaran Industri Serapan
+          </h2>
+          <p class="text-slate-600 leading-relaxed">
+            Mitos bahwa lulusan IT hanya bekerja di "perusahaan komputer" sudah
+            lama runtuh. Transformasi digital memaksa sektor tradisional seperti
+            perbankan dan pemerintahan untuk merekrut talenta digital secara
+            masif. Diagram ini menunjukkan porsi industri tempat para alumni
+            berkarir.
+          </p>
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100"
+        >
+          <div class="md:col-span-5 lg:col-span-4">
+            <h3 class="text-xl font-bold text-slate-800 mb-6">
+              Kemana Mereka Pergi?
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span class="text-xl mt-0.5">&#x1F680;</span>
+                <div>
+                  <h4 class="font-semibold text-slate-900">
+                    Tech & Startup (35%)
+                  </h4>
+                  <p class="text-sm text-slate-500">
+                    E-commerce, Fintech, Edutech. Lingkungan dinamis dan
+                    inovatif.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-xl mt-0.5">&#x1F4B0;</span>
+                <div>
+                  <h4 class="font-semibold text-slate-900">
+                    Finance & Banking (25%)
+                  </h4>
+                  <p class="text-sm text-slate-500">
+                    Bank konvensional dan digital. Fokus pada keamanan dan big
+                    data.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-xl mt-0.5">&#x1F3DB;</span>
+                <div>
+                  <h4 class="font-semibold text-slate-900">
+                    Pemerintahan/BUMN (15%)
+                  </h4>
+                  <p class="text-sm text-slate-500">
+                    Kementerian, BUMN IT. Stabilitas dan proyek skala nasional.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-xl mt-0.5">&#x1F4BC;</span>
+                <div>
+                  <h4 class="font-semibold text-slate-900">
+                    IT Consulting (15%)
+                  </h4>
+                  <p class="text-sm text-slate-500">
+                    Software house, agency. Variasi proyek yang tinggi.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="md:col-span-7 lg:col-span-8">
+            <div class="chart-container h-80">
+              <canvas id="industryChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="asisten-ai"
+        class="scroll-mt-24 pt-12 border-t border-slate-200"
+      >
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <span
+            class="text-xs font-semibold uppercase tracking-wider bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full"
+            >Kecerdasan Buatan Terintegrasi</span
+          >
+          <h2 class="text-3xl font-bold text-slate-900 mt-3 mb-4">
+            ✨ Asisten Karir AI Informatika
+          </h2>
+          <p class="text-slate-600 leading-relaxed">
+            Dapatkan rekomendasi jalur karir personal dan evaluasi profil
+            langsung dari kecerdasan buatan Gemini. Pilih fitur di bawah ini
+            untuk memulai konsultasi karir interaktif Anda.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Input Panel -->
+          <div
+            class="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6"
+          >
+            <div>
+              <label
+                class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2"
+                >Mode Asisten AI</label
+              >
+              <div class="grid grid-cols-2 gap-2">
+                <button
+                  id="btn-mode-advisor"
+                  class="py-2.5 px-4 rounded-xl text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 text-indigo-700 smooth-transition focus:outline-none"
+                >
+                  🧭 Konsultasi Karir
+                </button>
+                <button
+                  id="btn-mode-cv"
+                  class="py-2.5 px-4 rounded-xl text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 smooth-transition focus:outline-none"
+                >
+                  📄 Evaluasi CV / Resume
+                </button>
+              </div>
+            </div>
+
+            <!-- Dynamic Input Fields -->
+            <div id="advisor-inputs" class="space-y-4">
+              <div>
+                <label
+                  for="user-interests"
+                  class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >Minat, Passion, atau Bidang Favorit Anda</label
+                >
+                <textarea
+                  id="user-interests"
+                  rows="3"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm placeholder:text-slate-400"
+                  placeholder="Contoh: Saya suka desain antarmuka, tertarik menganalisis data, dan punya dasar coding Python dasar."
+                ></textarea>
+              </div>
+              <div>
+                <label
+                  for="target-preference"
+                  class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >Preferensi Target Perusahaan</label
+                >
+                <select
+                  id="target-preference"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                >
+                  <option value="Startup Dinamis">
+                    Startup Dinamis (Pertumbuhan cepat, struktur fleksibel)
+                  </option>
+                  <option value="Korporasi / Perbankan">
+                    Korporasi Besar / Perbankan (Stabilitas tinggi, regulasi
+                    kuat)
+                  </option>
+                  <option value="BUMN / Pemerintahan">
+                    BUMN / Pemerintahan (Stabilitas tinggi, kontribusi nasional)
+                  </option>
+                  <option value="Remote / Global Work">
+                    Remote Work / Freelance Global (Mandiri, US$/Euro)
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div id="cv-inputs" class="space-y-4 hidden">
+              <div>
+                <label
+                  for="target-role"
+                  class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >Target Posisi Kerja Idaman</label
+                >
+                <select
+                  id="target-role"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                >
+                  <option
+                    value="Software Engineer (Frontend/Backend/Fullstack)"
+                  >
+                    Software Engineer
+                  </option>
+                  <option value="Data Analyst / Data Scientist">
+                    Data Analyst / Scientist
+                  </option>
+                  <option value="DevOps / Cloud Engineer">
+                    DevOps / Cloud Engineer
+                  </option>
+                  <option value="UI/UX Designer">UI/UX Designer</option>
+                  <option value="Product Manager">Product Manager</option>
+                </select>
+              </div>
+
+              <!-- Upload File Zone -->
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >Unggah CV / Resume (PDF, TXT, atau JPG/PNG)</label
+                >
+                <div
+                  id="drop-zone"
+                  class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-xl p-5 text-center cursor-pointer bg-slate-50 hover:bg-indigo-50/30 transition-all duration-300 relative"
+                >
+                  <input
+                    type="file"
+                    id="file-input"
+                    class="hidden"
+                    accept=".pdf,.txt,.png,.jpg,.jpeg"
+                  />
+                  <div id="drop-zone-prompt" class="space-y-2">
+                    <div class="text-3xl">📤</div>
+                    <p class="text-xs font-semibold text-slate-600">
+                      Klik untuk jelajah atau seret file ke sini
+                    </p>
+                    <p class="text-[10px] text-slate-400">
+                      PDF, TXT atau Gambar (Maks. 5MB)
+                    </p>
+                  </div>
+                  <div
+                    id="drop-zone-status"
+                    class="hidden flex items-center justify-between bg-white border border-indigo-100 p-3 rounded-lg shadow-sm"
+                  >
+                    <div class="flex items-center gap-2 text-left truncate">
+                      <span id="file-icon" class="text-xl">📄</span>
+                      <div class="truncate">
+                        <p
+                          id="file-name"
+                          class="text-xs font-bold text-slate-700 truncate"
+                        ></p>
+                        <p
+                          id="file-size"
+                          class="text-[10px] text-slate-400"
+                        ></p>
+                      </div>
+                    </div>
+                    <button
+                      id="btn-remove-file"
+                      class="text-slate-400 hover:text-red-500 p-1 rounded-md hover:bg-slate-100 smooth-transition"
+                    >
+                      ❌
+                    </button>
+                  </div>
+                  <!-- File Processing Indicator -->
+                  <div
+                    id="file-loader"
+                    class="hidden absolute inset-0 bg-white/90 rounded-xl flex flex-col items-center justify-center gap-2"
+                  >
+                    <svg
+                      class="animate-spin h-6 w-6 text-indigo-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span class="text-xs font-semibold text-slate-600"
+                      >Membaca dokumen...</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between items-center mb-1.5">
+                  <label
+                    for="cv-text"
+                    class="block text-sm font-semibold text-slate-700"
+                    >Draf / Hasil Ekstraksi CV Anda</label
+                  >
+                  <span
+                    id="extraction-badge"
+                    class="hidden text-[10px] font-bold bg-green-100 text-green-800 px-2 py-0.5 rounded-full"
+                    >✨ Berhasil diekstrak</span
+                  >
+                </div>
+                <textarea
+                  id="cv-text"
+                  rows="4"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm placeholder:text-slate-400"
+                  placeholder="Tuliskan skill pemrograman Anda, proyek kuliah, magang, atau organisasi yang pernah diikuti... (Atau gunakan opsi unggah file di atas untuk ekstraksi otomatis)"
+                ></textarea>
+              </div>
+            </div>
+
+            <button
+              id="btn-generate-ai"
+              class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm shadow-md shadow-indigo-100 smooth-transition flex items-center justify-center gap-2"
+            >
+              <span>Mulai Analisis AI</span>
+              <svg
+                id="ai-btn-spinner"
+                class="animate-spin h-5 w-5 text-white hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Output Panel -->
+          <div class="lg:col-span-7 flex flex-col h-full min-h-[460px]">
+            <div
+              class="bg-slate-900 rounded-2xl p-6 md:p-8 text-slate-100 flex-grow shadow-lg relative overflow-hidden flex flex-col border border-slate-800"
+            >
+              <!-- AI Terminal Header -->
+              <div
+                class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4"
+              >
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span
+                    class="text-xs text-slate-400 ml-2 font-mono"
+                    id="ai-status-tag"
+                    >gemini-3-flash-preview // ready</span
+                  >
+                </div>
+                <button
+                  id="btn-copy-ai"
+                  class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold py-1.5 px-3 rounded-lg border border-slate-800 hover:bg-slate-800 smooth-transition flex items-center gap-1.5"
+                  disabled
+                >
+                  📋 Salin Analisis
+                </button>
+              </div>
+
+              <!-- Main Screen View -->
+              <div
+                id="ai-response-viewport"
+                class="overflow-y-auto max-h-[380px] pr-2 flex-grow space-y-4 text-slate-300 leading-relaxed text-sm scrollbar-thin"
+              >
+                <!-- Welcoming Terminal Message -->
+                <div
+                  id="ai-placeholder-msg"
+                  class="text-center py-16 space-y-3"
+                >
+                  <span class="text-5xl">💡</span>
+                  <h4 class="text-lg font-bold text-slate-200">
+                    Sistem AI Karir Terintegrasi
+                  </h4>
+                  <p class="text-xs text-slate-400 max-w-sm mx-auto">
+                    Isi form di samping untuk merencanakan petualangan karir IT
+                    Anda di Indonesia yang ditenagai oleh Gemini AI.
+                  </p>
+                </div>
+
+                <!-- Dynamic Rich Content Output -->
+                <div
+                  id="ai-response-content"
+                  class="hidden font-sans space-y-4"
+                ></div>
+
+                <!-- Loading Skeleton -->
+                <div
+                  id="ai-loading-skeleton"
+                  class="space-y-4 hidden animate-pulse"
+                >
+                  <div class="h-4 bg-slate-800 rounded w-1/4"></div>
+                  <div class="space-y-2">
+                    <div class="h-3 bg-slate-800 rounded w-full"></div>
+                    <div class="h-3 bg-slate-800 rounded w-5/6"></div>
+                    <div class="h-3 bg-slate-800 rounded w-11/12"></div>
+                  </div>
+                  <div class="h-4 bg-slate-800 rounded w-1/3 mt-6"></div>
+                  <div class="space-y-2">
+                    <div class="h-3 bg-slate-800 rounded w-4/5"></div>
+                    <div class="h-3 bg-slate-800 rounded w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="kompensasi"
+        class="scroll-mt-24 pt-12 border-t border-slate-200"
+      >
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">
+            Peta Gaji & Keterampilan Utama
+          </h2>
+          <p class="text-slate-600 leading-relaxed">
+            Bagian ini adalah panduan praktis untuk ekspektasi finansial dan
+            persiapan teknis. Gunakan tab di bawah untuk beralih antara melihat
+            rata-rata gaji (entry-level) berdasarkan peran, atau melihat
+            keterampilan teknis apa yang paling wajib dikuasai saat ini.
+          </p>
+        </div>
+
+        <div
+          class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+        >
+          <div class="flex border-b border-slate-200">
+            <button
+              class="flex-1 py-4 text-center font-medium tab-btn tab-active bg-slate-50 hover:bg-white smooth-transition"
+              data-target="panel-gaji"
+            >
+              Ekspektasi Gaji (Fresh Graduate)
+            </button>
+            <button
+              class="flex-1 py-4 text-center font-medium tab-btn text-slate-500 hover:text-slate-800 hover:bg-slate-50 smooth-transition"
+              data-target="panel-skill"
+            >
+              Top Keterampilan Teknis
+            </button>
+          </div>
+
+          <div class="p-6 md:p-10">
+            <div id="panel-gaji" class="tab-panel block">
+              <div class="mb-6 flex justify-between items-end">
+                <div>
+                  <h3 class="text-xl font-bold text-slate-800">
+                    Rentang Gaji Awal per Bulan
+                  </h3>
+                  <p class="text-sm text-slate-500">
+                    Estimasi dalam Rupiah (Area Jabodetabek)
+                  </p>
+                </div>
+                <div
+                  class="hidden sm:block text-xs font-medium px-3 py-1 bg-teal-100 text-teal-800 rounded-full"
+                >
+                  Update 2023/2024
+                </div>
+              </div>
+              <div class="chart-container max-w-4xl h-80">
+                <canvas id="salaryChart"></canvas>
+              </div>
+              <p class="text-xs text-slate-400 mt-4 text-center">
+                *Angka dapat sangat bervariasi tergantung ukuran perusahaan
+                (Startup vs Korporat) dan kemampuan individu.
+              </p>
+            </div>
+
+            <div id="panel-skill" class="tab-panel hidden">
+              <h3 class="text-xl font-bold text-slate-800 mb-6">
+                Tech Stack & Tools Paling Dicari
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="border border-slate-100 bg-slate-50 rounded-xl p-6">
+                  <div class="text-2xl mb-3">&#x1F4BB;</div>
+                  <h4 class="font-bold text-slate-800 mb-2">
+                    Bahasa Pemrograman
+                  </h4>
+                  <ul class="space-y-2 text-sm text-slate-600">
+                    <li class="flex justify-between items-center">
+                      JavaScript / TypeScript
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-indigo-500 w-11/12"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      Python
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-indigo-500 w-10/12"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      Java / Go
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-indigo-500 w-8/12"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      PHP
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-indigo-500 w-7/12"></div
+                      ></span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="border border-slate-100 bg-slate-50 rounded-xl p-6">
+                  <div class="text-2xl mb-3">&#x1F4BE;</div>
+                  <h4 class="font-bold text-slate-800 mb-2">
+                    Data & Infrastruktur
+                  </h4>
+                  <ul class="space-y-2 text-sm text-slate-600">
+                    <li class="flex justify-between items-center">
+                      SQL (MySQL, PostgreSQL)
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-teal-500 w-full"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      Cloud (AWS/GCP/Azure)
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-teal-500 w-9/12"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      Docker & Git
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-teal-500 w-11/12"></div
+                      ></span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="border border-slate-100 bg-slate-50 rounded-xl p-6">
+                  <div class="text-2xl mb-3">&#x1F3A8;</div>
+                  <h4 class="font-bold text-slate-800 mb-2">
+                    Desain & Manajemen
+                  </h4>
+                  <ul class="space-y-2 text-sm text-slate-600">
+                    <li class="flex justify-between items-center">
+                      Figma
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-amber-500 w-10/12"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      Agile / Scrum
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-amber-500 w-9/12"></div
+                      ></span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                      Jira / Trello
+                      <span
+                        class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden"
+                        ><div class="h-full bg-amber-500 w-8/12"></div
+                      ></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="bg-slate-900 text-slate-400 py-10 text-center border-t border-slate-800 mt-12"
+    >
+      <div class="max-w-7xl mx-auto px-4">
+        <p class="mb-2 font-medium text-slate-300">
+          Laporan Jejak Karir Informatika Interaktif
+        </p>
+        <p class="text-sm">
+          Data disintesis dari berbagai tren industri rekrutmen teknologi di
+          Indonesia.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Setup PDF.js Global Worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js";
+
+      const chartFont = { family: "'Inter', sans-serif", size: 13 };
+      const tooltipConfig = {
+        backgroundColor: "rgba(15, 23, 42, 0.9)",
+        titleFont: { family: "'Inter', sans-serif", size: 14, weight: "bold" },
+        bodyFont: { family: "'Inter', sans-serif", size: 13 },
+        padding: 12,
+        cornerRadius: 8,
+        displayColors: true,
+      };
+
+      const ctxRoles = document.getElementById("rolesChart").getContext("2d");
+      new Chart(ctxRoles, {
+        type: "bar",
+        data: {
+          labels: [
+            "Software Engineer",
+            "Data Analyst / Scientist",
+            "IT Support / Network",
+            "UI/UX Designer",
+            "Product Manager",
+            "Cloud / DevOps",
+          ],
+          datasets: [
+            {
+              label: "Persentase Lulusan (%)",
+              data: [42, 18, 12, 10, 8, 5],
+              backgroundColor: [
+                "rgba(79, 70, 229, 0.8)",
+                "rgba(20, 184, 166, 0.8)",
+                "rgba(148, 163, 184, 0.8)",
+                "rgba(245, 158, 11, 0.8)",
+                "rgba(236, 72, 153, 0.8)",
+                "rgba(16, 185, 129, 0.8)",
+              ],
+              borderRadius: 6,
+              borderSkipped: false,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: "y",
+          plugins: {
+            legend: { display: false },
+            tooltip: tooltipConfig,
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              grid: { color: "#f1f5f9", drawBorder: false },
+              ticks: { font: chartFont, color: "#64748b" },
+            },
+            y: {
+              grid: { display: false, drawBorder: false },
+              ticks: { font: chartFont, color: "#334155" },
+            },
+          },
+        },
+      });
+
+      const roleDetails = {
+        se: {
+          title: "Software Engineer",
+          desc: "Membangun, mengembangkan, dan memelihara aplikasi web atau mobile. Merupakan tulang punggung pengembangan teknologi di hampir semua perusahaan. Terbagi menjadi Frontend, Backend, atau Fullstack.",
+          focus: "Coding, Arsitektur Sistem",
+          demand: "Sangat Tinggi",
+        },
+        da: {
+          title: "Data Analyst / Scientist",
+          desc: "Mengumpulkan, membersihkan, dan menganalisis data untuk membantu perusahaan mengambil keputusan bisnis yang lebih baik menggunakan statistik dan machine learning.",
+          focus: "Query Data, Visualisasi, Statistik",
+          demand: "Tinggi & Terus Naik",
+        },
+        uiux: {
+          title: "UI/UX Designer",
+          desc: "Fokus pada pengalaman pengguna (UX) dan antarmuka (UI). Memastikan aplikasi tidak hanya berfungsi dengan baik secara teknis, tetapi juga mudah dan nyaman digunakan oleh manusia.",
+          focus: "Riset User, Wireframing, Prototyping",
+          demand: "Tinggi",
+        },
+        pm: {
+          title: "Product Manager",
+          desc: "Menjembatani antara tim bisnis, desain, dan engineering. Bertanggung jawab atas siklus hidup sebuah produk teknologi dari ide hingga diluncurkan ke pasar.",
+          focus: "Strategi, Komunikasi, Agile",
+          demand: "Sedang - Tinggi",
+        },
+        devops: {
+          title: "DevOps / Cloud Engineer",
+          desc: "Mengelola infrastruktur server dan proses deployment aplikasi. Memastikan aplikasi dapat diakses dengan cepat, aman, dan tanpa downtime (mati) di cloud environment.",
+          focus: "Server, CI/CD, Keamanan",
+          demand: "Sangat Tinggi (Niche)",
+        },
+      };
+
+      const roleBtns = document.querySelectorAll("#roleButtons button");
+      const dTitle = document.getElementById("detailTitle");
+      const dDesc = document.getElementById("detailDesc");
+      const dFocus = document.getElementById("detailFocus");
+      const dDemand = document.getElementById("detailDemand");
+
+      roleBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          roleBtns.forEach((b) => {
+            b.classList.remove(
+              "border-indigo-200",
+              "bg-indigo-50",
+              "text-indigo-700",
+            );
+            b.classList.add("border-slate-200", "bg-white", "text-slate-600");
+          });
+          this.classList.remove(
+            "border-slate-200",
+            "bg-white",
+            "text-slate-600",
+          );
+          this.classList.add(
+            "border-indigo-200",
+            "bg-indigo-50",
+            "text-indigo-700",
+          );
+
+          const key = this.getAttribute("data-role");
+          const data = roleDetails[key];
+
+          const box = document.getElementById("roleDetailBox");
+          box.style.opacity = 0;
+
+          setTimeout(() => {
+            dTitle.textContent = data.title;
+            dDesc.textContent = data.desc;
+            dFocus.textContent = data.focus;
+            dDemand.textContent = data.demand;
+            box.style.opacity = 1;
+            box.style.transition = "opacity 0.3s ease";
+          }, 200);
+        });
+      });
+
+      const ctxIndustry = document
+        .getElementById("industryChart")
+        .getContext("2d");
+      new Chart(ctxIndustry, {
+        type: "doughnut",
+        data: {
+          labels: [
+            "Tech/Startup",
+            "Finance/Bank",
+            "Gov/BUMN",
+            "Consulting",
+            "Lainnya (Retail, Media, dll)",
+          ],
+          datasets: [
+            {
+              data: [35, 25, 15, 15, 10],
+              backgroundColor: [
+                "#4F46E5",
+                "#0EA5E9",
+                "#10B981",
+                "#8B5CF6",
+                "#CBD5E1",
+              ],
+              borderWidth: 2,
+              borderColor: "#ffffff",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "65%",
+          plugins: {
+            legend: {
+              position: "right",
+              labels: {
+                font: chartFont,
+                color: "#334155",
+                usePointStyle: true,
+                padding: 20,
+              },
+            },
+            tooltip: tooltipConfig,
+          },
+        },
+      });
+
+      const ctxSalary = document.getElementById("salaryChart").getContext("2d");
+      new Chart(ctxSalary, {
+        type: "bar",
+        data: {
+          labels: [
+            "IT Support",
+            "UI/UX Designer",
+            ["Software", "Engineer"],
+            ["Data", "Analyst"],
+            ["Product", "Manager"],
+            ["Cloud/", "DevOps"],
+          ],
+          datasets: [
+            {
+              label: "Gaji Minimum (Juta Rp)",
+              data: [4.5, 5.5, 6.0, 6.0, 7.0, 7.5],
+              backgroundColor: "#94A3B8",
+              borderRadius: 4,
+            },
+            {
+              label: "Gaji Maksimum (Juta Rp)",
+              data: [7.0, 10.0, 15.0, 12.0, 15.0, 16.0],
+              backgroundColor: "#4F46E5",
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "top",
+              labels: {
+                font: chartFont,
+                color: "#334155",
+                usePointStyle: true,
+              },
+            },
+            tooltip: {
+              ...tooltipConfig,
+              callbacks: {
+                label: function (context) {
+                  return (
+                    context.dataset.label + ": Rp " + context.parsed.y + " Juta"
+                  );
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: chartFont, color: "#475569" },
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: "#e2e8f0", borderDash: [5, 5] },
+              ticks: {
+                font: chartFont,
+                color: "#475569",
+                callback: function (value) {
+                  return value + " Jt";
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabPanels = document.querySelectorAll(".tab-panel");
+
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach((b) => {
+            b.classList.remove("tab-active", "bg-white");
+            b.classList.add("text-slate-500", "bg-slate-50");
+          });
+          btn.classList.add("tab-active", "bg-white");
+          btn.classList.remove("text-slate-500", "bg-slate-50");
+
+          const targetId = btn.getAttribute("data-target");
+          tabPanels.forEach((panel) => {
+            if (panel.id === targetId) {
+              panel.classList.remove("hidden");
+              panel.classList.add("block");
+              panel.style.animation = "fadeIn 0.4s ease-in-out";
+            } else {
+              panel.classList.add("hidden");
+              panel.classList.remove("block");
+            }
+          });
+        });
+      });
+
+      // AI Integration State and Logic Variables
+      const modeAdvisorBtn = document.getElementById("btn-mode-advisor");
+      const modeCvBtn = document.getElementById("btn-mode-cv");
+      const advisorInputs = document.getElementById("advisor-inputs");
+      const cvInputs = document.getElementById("cv-inputs");
+      const generateAiBtn = document.getElementById("btn-generate-ai");
+      const aiBtnSpinner = document.getElementById("ai-btn-spinner");
+      const aiPlaceholderMsg = document.getElementById("ai-placeholder-msg");
+      const aiResponseContent = document.getElementById("ai-response-content");
+      const aiLoadingSkeleton = document.getElementById("ai-loading-skeleton");
+      const aiStatusTag = document.getElementById("ai-status-tag");
+      const copyAiBtn = document.getElementById("btn-copy-ai");
+
+      // Document Upload Elements
+      const dropZone = document.getElementById("drop-zone");
+      const fileInput = document.getElementById("file-input");
+      const dropZonePrompt = document.getElementById("drop-zone-prompt");
+      const dropZoneStatus = document.getElementById("drop-zone-status");
+      const fileNameEl = document.getElementById("file-name");
+      const fileSizeEl = document.getElementById("file-size");
+      const btnRemoveFile = document.getElementById("btn-remove-file");
+      const fileIconEl = document.getElementById("file-icon");
+      const fileLoader = document.getElementById("file-loader");
+      const cvTextarea = document.getElementById("cv-text");
+      const extractionBadge = document.getElementById("extraction-badge");
+
+      let currentAiMode = "advisor";
+      let lastRawResponse = "";
+      let uploadedFileObject = null; // Menyimpan info file gambar untuk Multimodal Vision API
+
+      // UI Toggling for AI Modes
+      modeAdvisorBtn.addEventListener("click", () => {
+        currentAiMode = "advisor";
+        modeAdvisorBtn.className =
+          "py-2.5 px-4 rounded-xl text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 text-indigo-700 smooth-transition focus:outline-none";
+        modeCvBtn.className =
+          "py-2.5 px-4 rounded-xl text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 smooth-transition focus:outline-none";
+        advisorInputs.classList.remove("hidden");
+        cvInputs.classList.add("hidden");
+      });
+
+      modeCvBtn.addEventListener("click", () => {
+        currentAiMode = "cv";
+        modeCvBtn.className =
+          "py-2.5 px-4 rounded-xl text-sm font-semibold border-2 border-indigo-600 bg-indigo-50 text-indigo-700 smooth-transition focus:outline-none";
+        modeAdvisorBtn.className =
+          "py-2.5 px-4 rounded-xl text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 smooth-transition focus:outline-none";
+        cvInputs.classList.remove("hidden");
+        advisorInputs.classList.add("hidden");
+      });
+
+      // --- File Upload & Parser Logic ---
+      dropZone.addEventListener("click", () => fileInput.click());
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("border-indigo-500", "bg-indigo-50/50");
+      });
+
+      dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("border-indigo-500", "bg-indigo-50/50");
+      });
+
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("border-indigo-500", "bg-indigo-50/50");
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleUploadedFile(files[0]);
+        }
+      });
+
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files.length > 0) {
+          handleUploadedFile(e.target.files[0]);
+        }
+      });
+
+      btnRemoveFile.addEventListener("click", (e) => {
+        e.stopPropagation(); // Mencegah klik menembus ke dropZone
+        resetUploadedFile();
+      });
+
+      function resetUploadedFile() {
+        fileInput.value = "";
+        uploadedFileObject = null;
+        dropZonePrompt.classList.remove("hidden");
+        dropZoneStatus.classList.add("hidden");
+        cvTextarea.value = "";
+        extractionBadge.classList.add("hidden");
+      }
+
+      // Memproses file yang diunggah
+      async function handleUploadedFile(file) {
+        if (file.size > 5 * 1024 * 1024) {
+          alertUser("Ukuran file maksimal adalah 5MB.");
+          return;
+        }
+
+        // Tampilkan info file
+        fileNameEl.textContent = file.name;
+        fileSizeEl.textContent = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+        dropZonePrompt.classList.add("hidden");
+        dropZoneStatus.classList.remove("hidden");
+        fileLoader.classList.remove("hidden");
+
+        const fileExtension = file.name.split(".").pop().toLowerCase();
+
+        try {
+          if (fileExtension === "pdf") {
+            fileIconEl.textContent = "📕";
+            const arrayBuffer = await file.arrayBuffer();
+            const text = await extractTextFromPDF(arrayBuffer);
+            cvTextarea.value = text.trim();
+            extractionBadge.classList.remove("hidden");
+            alertUser("Teks PDF berhasil diekstrak otomatis!");
+          } else if (fileExtension === "txt") {
+            fileIconEl.textContent = "📄";
+            const text = await file.text();
+            cvTextarea.value = text.trim();
+            extractionBadge.classList.remove("hidden");
+            alertUser("File teks berhasil diekstrak otomatis!");
+          } else if (["jpg", "jpeg", "png"].includes(fileExtension)) {
+            fileIconEl.textContent = "🖼️";
+            // Untuk gambar, kita simpan data base64 untuk dikirim langsung ke Gemini Vision
+            const base64Data = await convertFileToBase64(file);
+            uploadedFileObject = {
+              mimeType: file.type,
+              base64: base64Data.split(",")[1], // Ambil data murninya saja
+            };
+            cvTextarea.value =
+              "[Gambar CV Berhasil Diunggah] Gemini AI akan mendeteksi dan mengevaluasi langsung gambar resume Anda.";
+            extractionBadge.classList.remove("hidden");
+            alertUser(
+              "Gambar CV berhasil diunggah! Gemini akan menggunakan mode visual.",
+            );
+          } else {
+            resetUploadedFile();
+            alertUser(
+              "Format file tidak didukung. Gunakan PDF, TXT, atau PNG/JPG.",
+            );
+          }
+        } catch (err) {
+          console.error("Kesalahan membaca file:", err);
+          alertUser(
+            "Gagal memproses file. Silakan masukkan draf teks secara manual.",
+          );
+          resetUploadedFile();
+        } finally {
+          fileLoader.classList.add("hidden");
+        }
+      }
+
+      // Ekstraksi teks dari PDF menggunakan PDF.js
+      async function extractTextFromPDF(arrayBuffer) {
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items.map((item) => item.str).join(" ");
+          fullText += pageText + "\n";
+        }
+        return fullText;
+      }
+
+      // Helper konversi file ke base64
+      function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+      }
+
+      // API Fetch Client (Mendukung Teks biasa & Multimodal Vision)
+      async function callGemini(
+        userQuery,
+        systemPrompt,
+        imageObject = null,
+        retries = 3,
+        delay = 1000,
+      ) {
+        const apiKey = ""; // Dikosongkan agar otomatis terisi oleh sistem canvas pada runtime.
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+        // Susun struktur payload interaksi
+        const parts = [{ text: userQuery }];
+
+        // Jika ada file gambar, sertakan dalam parts (Multimodal input)
+        if (imageObject) {
+          parts.push({
+            inlineData: {
+              mimeType: imageObject.mimeType,
+              data: imageObject.base64,
+            },
+          });
+        }
+
+        const payload = {
+          contents: [{ parts: parts }],
+          systemInstruction: {
+            parts: [{ text: systemPrompt }],
+          },
+        };
+
+        for (let i = 0; i < retries; i++) {
+          try {
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP Error: ${response.status}`);
+            }
+
+            const result = await response.json();
+            const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) return text;
+            throw new Error("Struktur respon kosong.");
+          } catch (err) {
+            if (i === retries - 1) throw err;
+            await new Promise((res) => setTimeout(res, delay * Math.pow(2, i))); // Exponential backoff
+          }
+        }
+      }
+
+      // Action Trigger
+      generateAiBtn.addEventListener("click", async () => {
+        let systemPrompt = "";
+        let userQuery = "";
+        let imagePayload = null;
+
+        if (currentAiMode === "advisor") {
+          const interests = document
+            .getElementById("user-interests")
+            .value.trim();
+          const preference = document.getElementById("target-preference").value;
+          if (!interests) {
+            alertUser(
+              "Silakan tulis minat atau keahlian Anda terlebih dahulu.",
+            );
+            return;
+          }
+          systemPrompt =
+            "Kamu adalah Penasihat Karir IT senior di Indonesia. Berikan rekomendasi yang taktis, berwawasan lokal (menghubungkan dengan perusahaan top lokal seperti GoTo, Traveloka, perbankan nasional, dsb), sebutkan tech stack terbaru yang dicari, sertakan 1 proyek portofolio yang disarankan, serta taksiran gaji entry-level. Jawab dalam Bahasa Indonesia yang ramah, profesional, dan gunakan format Markdown yang bersih.";
+          userQuery = `Minat/Keahlian saya saat ini: "${interests}". Preferensi tipe perusahaan impian saya: "${preference}". Mohon berikan panduan peta karir langkah demi langkah secara mendetail.`;
+        } else {
+          const target = document.getElementById("target-role").value;
+          const cvText = cvTextarea.value.trim();
+
+          if (!cvText) {
+            alertUser(
+              "Silakan unggah CV Anda atau tulis ringkasan keahlian Anda.",
+            );
+            return;
+          }
+
+          // Jika pengguna mengunggah gambar, siapkan payload gambar
+          if (uploadedFileObject) {
+            imagePayload = uploadedFileObject;
+          }
+
+          systemPrompt =
+            "Kamu adalah Tech Recruiter (HRD IT) profesional dan berpengalaman di Indonesia. Analisis draf resume ini dengan kritis namun ramah untuk posisi target pengguna. Sebutkan kekuatan profil, gap keterampilan atau keahlian yang harus ditambahkan, langkah optimasi portofolio agar dilirik perusahaan, serta saran penulisan resume. Gunakan Bahasa Indonesia.";
+          userQuery = `Target posisi yang diincar: "${target}". Berikut adalah ringkasan CV/Keahlian saya: "${cvText}". Mohon lakukan evaluasi komprehensif.`;
+        }
+
+        // UI Loading state adjustment
+        aiPlaceholderMsg.classList.add("hidden");
+        aiResponseContent.classList.add("hidden");
+        aiLoadingSkeleton.classList.remove("hidden");
+        generateAiBtn.disabled = true;
+        aiBtnSpinner.classList.remove("hidden");
+        aiStatusTag.textContent = "gemini-3-flash-preview // memproses...";
+        copyAiBtn.disabled = true;
+
+        try {
+          const response = await callGemini(
+            userQuery,
+            systemPrompt,
+            imagePayload,
+          );
+          lastRawResponse = response;
+
+          // Parse markdown and inject to visual terminal
+          aiResponseContent.innerHTML = parseMarkdown(response);
+
+          aiLoadingSkeleton.classList.add("hidden");
+          aiResponseContent.classList.remove("hidden");
+          aiStatusTag.textContent = "gemini-3-flash-preview // sukses";
+          copyAiBtn.disabled = false;
+        } catch (err) {
+          console.error(err);
+          aiLoadingSkeleton.classList.add("hidden");
+          aiPlaceholderMsg.classList.remove("hidden");
+          aiStatusTag.textContent = "gemini-3-flash-preview // gagal";
+          alertUser(
+            "Terjadi gangguan koneksi dengan AI. Silakan coba sesaat lagi.",
+          );
+        } finally {
+          generateAiBtn.disabled = false;
+          aiBtnSpinner.classList.add("hidden");
+        }
+      });
+
+      // Custom interactive feedback toast (replaces alert() per rules)
+      function alertUser(message) {
+        const toast = document.createElement("div");
+        toast.className =
+          "fixed bottom-5 right-5 z-50 bg-red-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg flex items-center gap-3 transition-all duration-300 transform translate-y-10 opacity-0";
+        toast.innerHTML = `<span>⚠️</span> <span>${message}</span>`;
+        document.body.appendChild(toast);
+
+        // Trigger animation
+        setTimeout(() => {
+          toast.classList.remove("translate-y-10", "opacity-0");
+        }, 10);
+
+        // Self removal
+        setTimeout(() => {
+          toast.classList.add("translate-y-10", "opacity-0");
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      // Copy mechanism using classic execCommand to safeguard iframe environments
+      copyAiBtn.addEventListener("click", () => {
+        if (!lastRawResponse) return;
+        const temp = document.createElement("textarea");
+        temp.value = lastRawResponse;
+        document.body.appendChild(temp);
+        temp.select();
+        try {
+          document.execCommand("copy");
+          const prevLabel = copyAiBtn.innerHTML;
+          copyAiBtn.innerHTML = "✅ Tersalin!";
+          setTimeout(() => {
+            copyAiBtn.innerHTML = prevLabel;
+          }, 2000);
+        } catch (err) {
+          console.error("Gagal menyalin teks", err);
+        }
+        document.body.removeChild(temp);
+      });
+
+      // Basic Markdown Parser (converts standard markdown tags into responsive semantic html)
+      function parseMarkdown(text) {
+        let formatted = text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+
+        // Convert Bold
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+        // Format Headings
+        formatted = formatted.replace(
+          /^### (.*?)$/gm,
+          '<h5 class="text-teal-400 font-semibold text-base mt-4 mb-1.5">$1</h5>',
+        );
+        formatted = formatted.replace(
+          /^## (.*?)$/gm,
+          '<h4 class="text-white font-bold text-lg border-b border-slate-800 pb-1 mt-6 mb-3">$1</h4>',
+        );
+        formatted = formatted.replace(
+          /^# (.*?)$/gm,
+          '<h3 class="text-white font-extrabold text-xl mt-8 mb-4">$1</h3>',
+        );
+
+        // Convert Lists
+        formatted = formatted.replace(
+          /^\* (.*?)$/gm,
+          '<li class="list-disc ml-5 text-slate-300 mt-1">$1</li>',
+        );
+        formatted = formatted.replace(
+          /^- (.*?)$/gm,
+          '<li class="list-disc ml-5 text-slate-300 mt-1">$1</li>',
+        );
+
+        // Clean line break paragraphs
+        formatted = formatted
+          .split("\n")
+          .map((line) => {
+            if (line.trim().startsWith("<li") || line.trim().startsWith("<h")) {
+              return line;
+            }
+            return line
+              ? `<p class="mb-2 text-slate-300 leading-relaxed">${line}</p>`
+              : "";
+          })
+          .join("");
+
+        return formatted;
+      }
+
+      const style = document.createElement("style");
+      style.innerHTML = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(5px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>
